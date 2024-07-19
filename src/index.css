@@ -1,68 +1,93 @@
+/*=============== GOOGLE FONTS ===============*/
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Small font sizes */
+  --font-size-xxs: 14px; /* Extra Extra Small */
+  --font-size-xs: 16px; /* Extra Small */
+  --font-size-sm: 18px; /* Small */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Medium font sizes */
+  --font-size-md: 20px; /* Medium */
+  --font-size-ml: 22px; /* Medium Large */
+  --font-size-ml2: 25px; /* Medium Large 2 */
+  --font-size-ml3: 27.33px; /* Medium Large 3 */
+  --font-size-ml4: 36px; /* Medium Large 4 */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Large font sizes */
+  --font-size-lg: 60px; /* Large */
+  --font-size-xl: 72px; /* Extra Large */
+
+  /* Special font sizes */
+  --font-size-special-1: 19.2px; /* Special Font Size 1 */
+  --font-size-special-2: 20px; /* Special Font Size 2 */
+
+  /* Common colors */
+  --color-white: #ffffff; /* White */
+  --color-light-grey: #a0aec0; /* Light Grey */
+  --color-dark-grey: #718096; /* Dark Grey */
+  --color-red: #ff4141; /* Red */
+  --color-dark-red: #522224; /* Dark Red */
+  --color-very-dark-grey: #1a1a1a; /* Very Dark Grey */
+  --color-medium-red: #cf3636; /* Medium Red */
+
+  /* Font weights */
+  --font-weight-regular: 400; /* Regular */
+  --font-weight-medium: 500; /* Medium */
+  --font-weight-semibold: 600; /* Semi Bold */
+  --font-weight-bold: 700; /* Bold */
+  --font-weight-extrabold: 800; /* Extra Bold */
+
+  /* Line Heights */
+  --line-height-small: 21.6px;
+  --line-height-medium: 24px;
+  --line-height-large: 27px;
+  --line-height-xl: 30px;
+  --line-height-xxl: 43.2px;
+  --line-height-huge: 72px;
+  --line-height-tiny: 16.9px;
+  --line-height-base: 19.2px;
+  --line-height-big: 41px;
+  --line-height-custom-1: 26.2px;
+  --line-height-custom-2: 27.24px;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/*TODO: Re-Usable Flex classes */
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+/* TODO: Re-usable width properties*/
+.w-screen {
+  width: 100vw;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.h-screen {
+  height: 100vh;
 }
