@@ -49,9 +49,13 @@ const handleLogin = async (req, res, next) => {
       );
       if (isPasswordCorrect) {
         // We will create a token
-        const token = jwt.sign({ userID: existingUser._id }, PRIVATE_SIGN_KEY, {
-          expiresIn: "1h",
-        });
+        const token = jwt.sign(
+          { userID: existingUser._id, userName: existingUser.name },
+          PRIVATE_SIGN_KEY,
+          {
+            expiresIn: "1h",
+          }
+        );
         res.status(200).json({
           message: "Login Successful",
           email: existingUser.email,

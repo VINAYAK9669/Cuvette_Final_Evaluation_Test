@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import useApiFun from "./useApiFun";
 import { useDispatch, useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode";
 
 import {
   setFormErrorMessage,
   setIsAuthenticated,
+  setCurrentUser,
   setLoginUser,
 } from "./authSlice";
-import useValidateToken from "../hooks/useValidateToken";
+import ValidateCurToken from "../hooks/useValidateToken";
 
 function useAuthentication() {
   const queryClient = useQueryClient();
@@ -20,7 +22,6 @@ function useAuthentication() {
 
   // Destructure all the functions related to API
   const { addNewUser, loginUser } = useApiFun();
-  const { ValidateCurToken } = useValidateToken();
 
   // TODO:  ================== Functions Logic ===================
   // * Handle signup once we get response from server
@@ -52,9 +53,18 @@ function useAuthentication() {
       try {
         // 1] store the token to the localStorage
         localStorage.setItem("token", response.data.token);
+        // 2] Decode the JWT token to get the user information
+        const decodedToken = jwtDecode(response.data.token);
+
         const tokenValidation = await ValidateCurToken(response.data.token);
         if (tokenValidation) {
-          navigate("/dashboard");
+          const { userID, userName } = decodedToken;
+          localStorage.setItem(
+            "loggedUser",
+            JSON.stringify({ userID, userName })
+          );
+          dispatch(setCurrentUser(userName));
+          navigate(`/dashboard/${userID}`);
           dispatch(setIsAuthenticated(true));
           dispatch(setLoginUser(true));
         }
@@ -69,6 +79,7 @@ function useAuthentication() {
     }
   };
   // TODO: ==================== React Query Logics ==============
+
   // TODO: 1] User REGISTERATION
   const addUser = useMutation({
     mutationKey: ["newUserDetails"],

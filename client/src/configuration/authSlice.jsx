@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import ValidateCurToken from "../hooks/useValidateToken";
 // TODO: Define the inital states required for authentication
+
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: await ValidateCurToken(localStorage.getItem("token")),
   loginUserStatus: true,
+  loggedUser: JSON.parse(localStorage.getItem("loggedUser")),
   currentUser: null,
   formErrorMessage: "",
 };
@@ -18,6 +21,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("userName");
     },
     setLoginUser(state, action) {
       state.loginUserStatus = action.payload;
