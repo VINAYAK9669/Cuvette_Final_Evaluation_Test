@@ -5,18 +5,19 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { loginUserURL, registerUserURL } from "../data/apiURL";
 
+// * This Custom hook which involve the Logic to send the request to the server and return the response
 function useApiFun() {
-  // TODO: User Register Function
+  // TODO: ========= User Register Function
+
   const addNewUser = async (newUser) => {
     try {
       const response = await axios.post(registerUserURL, newUser);
-      console.log(response);
-      return response.status;
+      return { response };
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
-  // TODO: User LOGIN Function
+  // TODO: ========= User LOGIN Function
   const loginUser = async (userData) => {
     try {
       const response = await axios.post(loginUserURL, userData);
