@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   loginUserStatus: true,
   currentUser: null,
+  formErrorMessage: "",
 };
 
 const authSlice = createSlice({
@@ -25,9 +26,17 @@ const authSlice = createSlice({
       console.log(action.payload);
       state.currentUser = action.payload;
     },
+    setFormErrorMessage(state, action) {
+      state.formErrorMessage = action.payload;
+    },
   },
 });
 
-export const { setIsAuthenticated, logout, setLoginUser, setCurrentUser } =
-  authSlice.actions;
+export const {
+  setIsAuthenticated,
+  logout,
+  setLoginUser,
+  setCurrentUser,
+  setFormErrorMessage,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -18,13 +18,11 @@ function useApiFun() {
   };
   // TODO: User LOGIN Function
   const loginUser = async (userData) => {
-    console.log(userData);
     try {
       const response = await axios.post(loginUserURL, userData);
-      return response.data;
+      return { response };
     } catch (error) {
-      console.log("error block");
-      console.log(error);
+      return error;
     }
   };
 

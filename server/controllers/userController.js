@@ -11,10 +11,8 @@ const registerUser = async (req, res, next) => {
   try {
     //2] destructure the form data values from req.body
     const { name, email, password } = req.body;
-    console.log(name, email, password);
     //5] checked user existed or not
     const existingUser = await User.findOne({ email });
-    console.log(existingUser);
     if (existingUser) {
       return res.status(400).json({
         message: "User already exists, please use another email address",

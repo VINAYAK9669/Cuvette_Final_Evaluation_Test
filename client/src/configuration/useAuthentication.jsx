@@ -1,19 +1,17 @@
+/* eslint-disable no-unused-vars */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import useApiFun from "./useApiFun";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsAuthenticated, setLoginUser } from "./authSlice";
+import useHandleServerLogic from "./useHandleServerLogic";
 
 function useAuthentication() {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.auth);
 
-  // TODO:Redux Disptach Function
-  const dispatch = useDispatch();
-
   // Destructure all the functions related to API
-  const { addNewUser, loginUser, ValidateCurToken } = useApiFun();
+  const { addNewUser, loginUser } = useApiFun();
+  const { handleLoginLogic } = useHandleServerLogic();
 
   // TODO: 1] User REGISTERATION
   const addUser = useMutation({
@@ -42,22 +40,7 @@ function useAuthentication() {
   const userLogin = useMutation({
     mutationKey: ["loggedDetails"],
     mutationFn: loginUser,
-    onSuccess: async (data) => {
-      console.log(data);
-      try {
-        // 1] store the token to the localStorage
-        localStorage.setItem("token", data.token);
-        const tokenValidation = await ValidateCurToken(data.token);
-        if (tokenValidation) {
-          navigate("/dashboard");
-          dispatch(setIsAuthenticated(true));
-          dispatch(setLoginUser(true));
-        }
-        queryClient.invalidateQueries("loggedDetails");
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    onSuccess: handleLoginLogic,
   });
 
   return { addUser, userLogin };

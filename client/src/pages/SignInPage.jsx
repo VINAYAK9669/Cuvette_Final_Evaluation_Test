@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import useAuthentication from "../configuration/useAuthentication";
+import { useSelector } from "react-redux";
 
 function SignInPage() {
+  const { formErrorMessage } = useSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
@@ -51,6 +54,7 @@ function SignInPage() {
             <p className="text-red-500">{errors.password.message}</p>
           )}
         </div>
+        {formErrorMessage && <p>{formErrorMessage}</p>}
         <div>
           <button type="submit">Log In</button>
           <p>

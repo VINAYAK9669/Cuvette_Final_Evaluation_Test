@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import useAuthentication from "../configuration/useAuthentication";
-import { setCurrentUser } from "../configuration/authSlice";
-import { useDispatch } from "react-redux";
+import {
+  setCurrentUser,
+  setFormErrorMessage,
+} from "../configuration/authSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignupPage = () => {
+  const { formErrorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { addUser } = useAuthentication();
   const {
@@ -15,6 +19,7 @@ const SignupPage = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    dispatch(setFormErrorMessage(""));
     // Remove confirmPassword from the data object
     const { confirmPassword, ...submitData } = data;
     console.log("Form submitted:", submitData);
@@ -84,6 +89,7 @@ const SignupPage = () => {
             <p style={{ color: "red" }}>{errors.confirmPassword.message}</p>
           )}
         </div>
+        {formErrorMessage && <p>{formErrorMessage}</p>}
         <button type="submit">Sign Up</button>
       </form>
     </div>
