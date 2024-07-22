@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      dispatch(logout);
+      dispatch(logout());
     }
   }, [isAuthenticated]);
   return (

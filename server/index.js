@@ -6,6 +6,7 @@ const cors = require("cors"); // Import CORS module
 
 // TODO: 5] Import Custom Module [Routes]
 const userRoute = require("./routes/userRoute");
+const folderRoutes = require("./routes/folderRoute");
 
 // TODO: 2] Create a instance of express and declare port
 const app = express();
@@ -37,5 +38,6 @@ app.use(express.json());
 
 // TODO: 6] Use the defined routes
 app.use("/user", userRoute);
+app.use("/api", folderRoutes);
 // app.use("/job", jobRoute);
 // app.use(errorHandler);

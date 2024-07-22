@@ -21,7 +21,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       localStorage.removeItem("token");
-      localStorage.removeItem("userName");
+      localStorage.removeItem("loggedUser");
     },
     setLoginUser(state, action) {
       state.loginUserStatus = action.payload;
