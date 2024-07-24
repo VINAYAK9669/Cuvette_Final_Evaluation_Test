@@ -8,6 +8,9 @@ const initialState = {
   loggedUser: JSON.parse(localStorage.getItem("loggedUser")),
   currentUser: null,
   formErrorMessage: "",
+  modalStatus: false,
+  //* Folder Details
+  userFolders: [],
 };
 
 const authSlice = createSlice({
@@ -33,6 +36,12 @@ const authSlice = createSlice({
     setFormErrorMessage(state, action) {
       state.formErrorMessage = action.payload;
     },
+    setModalStatus(state, action) {
+      state.modalStatus = action.payload;
+    },
+    setUserFolders(state, action) {
+      state.userFolders = [action.payload];
+    },
   },
 });
 
@@ -42,5 +51,6 @@ export const {
   setLoginUser,
   setCurrentUser,
   setFormErrorMessage,
+  setUserFolders,
 } = authSlice.actions;
 export default authSlice.reducer;

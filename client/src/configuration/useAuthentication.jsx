@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useApiFun from "./useApiFun";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
@@ -10,6 +10,7 @@ import {
   setIsAuthenticated,
   setCurrentUser,
   setLoginUser,
+  setUserFolders,
 } from "./authSlice";
 import ValidateCurToken from "../hooks/useValidateToken";
 
@@ -21,14 +22,13 @@ function useAuthentication() {
   const { currentUser } = useSelector((state) => state.auth);
 
   // Destructure all the functions related to API
-  const { addNewUser, loginUser } = useApiFun();
+  const { addNewUser, loginUser, createFolderFun, getFoldersbyUserIdFun } =
+    useApiFun();
 
   // TODO:  ================== Functions Logic ===================
   // * Handle signup once we get response from server
   const handleSignupLogic = async (data) => {
     const { response } = data;
-    console.log(currentUser);
-    console.log(response.status);
     try {
       if (response.status === 201) {
         userLogin.mutate({
@@ -67,6 +67,7 @@ function useAuthentication() {
           navigate(`/dashboard/${userID}`);
           dispatch(setIsAuthenticated(true));
           dispatch(setLoginUser(true));
+          dispatch(setFormErrorMessage(""));
         }
         queryClient.invalidateQueries("loggedDetails");
       } catch (error) {
@@ -76,6 +77,18 @@ function useAuthentication() {
       dispatch(setFormErrorMessage("Password or email are incorrect"));
     } else {
       dispatch(setFormErrorMessage("User Not found"));
+    }
+  };
+  // *Handle CreateFolder once we get response from the server
+  const handlecreateFolderLogic = async ({ response }) => {
+    try {
+      if (response.status === 201) {
+        const { userID } = await JSON.parse(localStorage.getItem("loggedUser"));
+
+        fetchAllFolders.mutate(userID);
+      }
+    } catch (error) {
+      throw new error();
     }
   };
   // TODO: ==================== React Query Logics ==============
@@ -97,7 +110,24 @@ function useAuthentication() {
     onSuccess: handleLoginLogic,
   });
 
-  return { addUser, userLogin };
+  // *==================  FUNCTION RELATED TO FOLDERS =========
+
+  // TODO: 3] Create a folder
+  const createFolder = useMutation({
+    mutationKey: ["FolderDetails"],
+    mutationFn: createFolderFun,
+    onSuccess: handlecreateFolderLogic,
+  });
+  // TODO: 4] Fecth all the folders by userId
+  const fetchAllFolders = useMutation({
+    mutationKey: ["userFolders"],
+    mutationFn: getFoldersbyUserIdFun,
+    onSuccess: async ({ response }) => {
+      dispatch(setUserFolders(response.data));
+    },
+  });
+
+  return { addUser, userLogin, createFolder, fetchAllFolders };
 }
 
 export default useAuthentication;

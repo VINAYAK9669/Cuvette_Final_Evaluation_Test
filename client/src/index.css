@@ -1,58 +1,31 @@
-/*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
-
-:root {
-  /* Small font sizes */
-  --font-size-xxs: 14px; /* Extra Extra Small */
-  --font-size-xs: 16px; /* Extra Small */
-  --font-size-sm: 18px; /* Small */
-
-  /* Medium font sizes */
-  --font-size-md: 20px; /* Medium */
-  --font-size-ml: 22px; /* Medium Large */
-  --font-size-ml2: 25px; /* Medium Large 2 */
-  --font-size-ml3: 27.33px; /* Medium Large 3 */
-  --font-size-ml4: 36px; /* Medium Large 4 */
-
-  /* Large font sizes */
-  --font-size-lg: 60px; /* Large */
-  --font-size-xl: 72px; /* Extra Large */
-
-  /* Special font sizes */
-  --font-size-special-1: 19.2px; /* Special Font Size 1 */
-  --font-size-special-2: 20px; /* Special Font Size 2 */
-
-  /* Common colors */
-  --color-white: #ffffff; /* White */
-  --color-light-grey: #a0aec0; /* Light Grey */
-  --color-dark-grey: #718096; /* Dark Grey */
-  --color-red: #ff4141; /* Red */
-  --color-dark-red: #522224; /* Dark Red */
-  --color-very-dark-grey: #1a1a1a; /* Very Dark Grey */
-  --color-medium-red: #cf3636; /* Medium Red */
-
-  /* Font weights */
-  --font-weight-regular: 400; /* Regular */
-  --font-weight-medium: 500; /* Medium */
-  --font-weight-semibold: 600; /* Semi Bold */
-  --font-weight-bold: 700; /* Bold */
-  --font-weight-extrabold: 800; /* Extra Bold */
-
-  /* Line Heights */
-  --line-height-small: 21.6px;
-  --line-height-medium: 24px;
-  --line-height-large: 27px;
-  --line-height-xl: 30px;
-  --line-height-xxl: 43.2px;
-  --line-height-huge: 72px;
-  --line-height-tiny: 16.9px;
-  --line-height-base: 19.2px;
-  --line-height-big: 41px;
-  --line-height-custom-1: 26.2px;
-  --line-height-custom-2: 27.24px;
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+body {
+  margin: 0;
+  line-height: normal;
+  background-color: #171923;
+  color: white;
 }
+:root {
+  /* fonts */
+  --font-open-sans: "Open Sans";
+  --font-outfit: Outfit;
 
+  /* font sizes */
+  --font-size-base: 1rem;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-cornflowerblue-100: #7ea6ff;
+
+  /* Paddings */
+  --padding-base: 1rem;
+  --padding-5xs: 0.5rem;
+  --padding-xl: 1.25rem;
+
+  /* Border radiuses */
+  --br-7xs: 6px;
+}
 * {
   margin: 0;
   padding: 0;
@@ -60,17 +33,21 @@
 }
 
 body {
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/*TODO: Re-Usable Flex classes */
+/*TODO: Reusabe Display classes */
 .flex {
   display: flex;
 }
+.inline-block {
+  display: block;
+}
+.block {
+  display: inline-block;
+}
+/* TODO: Reusable Flex properties */
 .flex-col {
   flex-direction: column;
 }
@@ -89,5 +66,13 @@ body {
   width: 100vw;
 }
 .h-screen {
+  height: 100vh;
+}
+.size-full {
+  width: 100%;
+  height: 100%;
+}
+.size-screen {
+  width: 100vw;
   height: 100vh;
 }

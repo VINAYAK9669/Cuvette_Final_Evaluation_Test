@@ -5,11 +5,13 @@ const { upload } = require("../middlewares/multer");
 // TODO: Create a folder
 exports.createFolder = async (req, res) => {
   try {
-    const { name = "Untitled Folder", parentFolder, createdBy } = req.body;
+    const { name = "", parentFolder, createdBy } = req.body;
 
     //* Check if the createdBy field is present
     if (!createdBy) {
-      return res.status(400).json({ message: "CreatedBy is required" });
+      return res
+        .status(400)
+        .json({ message: "user Identification is required" });
     }
 
     //* Create a new folder
@@ -22,6 +24,35 @@ exports.createFolder = async (req, res) => {
 };
 
 //TODO: Get all folders
+// exports.getAllFolders = async (req, res) => {
+//   try {
+//     const { userId } = req.query;
+
+//     if (!userId) {
+//       return res.status(400).json({ message: "User ID is required" });
+//     }
+
+//     // Check if the user exists
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: "User does not exist" });
+//     }
+
+//     // Get folders created by the user and populate subfolders
+//     const folders = await Folder.find({ createdBy: userId }).populate({
+//       path: "subfolders",
+//       populate: { path: "subfolders" }, // Populate nested subfolders if needed
+//     });
+
+//     res.status(200).json(folders);
+//   } catch (error) {
+//     console.error("Error getting folders:", error); // Log the error for debugging
+//     res.status(500).json({
+//       message: "Failed to get folders",
+//       error: error.message || error,
+//     });
+//   }
+// };
 exports.getAllFolders = async (req, res) => {
   try {
     const { userId } = req.query;
@@ -42,7 +73,18 @@ exports.getAllFolders = async (req, res) => {
       populate: { path: "subfolders" }, // Populate nested subfolders if needed
     });
 
-    res.status(200).json(folders);
+    // Categorize folders
+    const titledFolders = folders.filter(
+      (folder) => folder.name && folder.name.trim() !== ""
+    );
+    const untitledFolders = folders.filter(
+      (folder) => !folder.name || folder.name.trim() === ""
+    );
+
+    res.status(200).json({
+      titledFolders,
+      untitledFolders,
+    });
   } catch (error) {
     console.error("Error getting folders:", error); // Log the error for debugging
     res.status(500).json({

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import SignInPage from "./pages/SignInPage";
 import SignupPage from "./pages/SignupPage";
@@ -8,11 +9,15 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import Dashboard from "./pages/Dashboard";
-import { useEffect } from "react";
+import DashboardLayout from "./pages/DashboardLayout";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./configuration/authSlice";
+import SettingPage from "./pages/SettingPage";
+import WorkSpace from "./pages/WorkSpace";
+import { useEffect } from "react";
+import Nav from "./components/HomePage/Nav";
+import WorkspaceTool from "./pages/WorkspaceTool";
 
 // *Create a client
 const queryClient = new QueryClient();
@@ -27,6 +32,7 @@ function App() {
       dispatch(logout());
     }
   }, [isAuthenticated]);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -36,9 +42,13 @@ function App() {
             <Route path="/signup" element={<SignupPage />}></Route>
             <Route path="/signin" element={<SignInPage />}></Route>
             <Route
-              path="/dashboard/:userID"
-              element={<ProtectedRoute element={Dashboard} />}
-            ></Route>
+              path="/dashboard/:userID/*"
+              element={<ProtectedRoute element={DashboardLayout} />}
+            >
+              <Route index element={<WorkSpace />} />
+              <Route path="workspacetool" element={<WorkspaceTool />} />
+              <Route path="settings" element={<SettingPage />} />
+            </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Routes>
         </BrowserRouter>
