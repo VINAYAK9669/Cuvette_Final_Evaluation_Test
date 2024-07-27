@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux";
 import { onCloseModal, onOpenModal } from "./modalSlice";
@@ -12,7 +13,7 @@ function WorkSpace() {
   const { userID } = useParams();
   const { createFolder } = useAuthentication();
   const { userFolders } = useSelector((state) => state.auth);
-  const { fetchAllFolders } = useAuthentication();
+  const { fetchAllFolders, deleteFolderById } = useAuthentication();
 
   function onSubmit() {
     const createdBy = userID;
@@ -28,21 +29,28 @@ function WorkSpace() {
     fetchAllFolders.mutate(userID);
   }, []);
 
+  function deleteFolder(folderId) {
+    deleteFolderById.mutate(folderId);
+  }
+
   return (
     <div className="flex flex-col justify-center items-center">
       <div className="flex " style={{ gap: "5rem" }}>
         <p onClick={() => disptach(onOpenModal())}>Create a folder</p>
-        <div
-          className="flex"
-          style={{ overflow: "scroll", gap: "1rem", width: "60vw" }}
-        >
-          {userFolders &&
-            userFolders[0]?.titledFolders?.map((folder, index) => (
-              <p key={index} style={{ width: "30vw", backgroundColor: "red" }}>
-                {folder.name}
-              </p>
-            ))}
-        </div>
+        {!userFolders[0].titledFolders > 0 && (
+          <div
+            className="flex"
+            style={{ overflow: "scroll", gap: "1rem", width: "60vw" }}
+          >
+            {userFolders &&
+              userFolders[0]?.titledFolders?.map((folder, index) => (
+                <div key={index}>
+                  <p style={{ width: "30vw" }}>{folder.name}</p>
+                  <span onClick={() => deleteFolder(folder._id)}>🗑️</span>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
       <div className="flex " style={{ gap: "1rem" }}>
         <ModalContent>

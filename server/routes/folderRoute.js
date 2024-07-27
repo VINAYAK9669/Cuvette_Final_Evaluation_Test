@@ -1,29 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const folderController = require("../controllers/folderController");
-const ValidateCurToken = require("../middlewares/verifyToken");
+const FolderController = require("../controllers/FolderController");
+const verifyToken = require("../middlewares/verifyToken");
 
 //* Route to create a new folder
-router.post("/folders", ValidateCurToken, folderController.createFolder);
+router.post("/folders", verifyToken, FolderController.createFolder);
 
-//* Route to get all folders
+//* Route to get all folders for a specific user
 router.get(
-  "/folders/by-user",
-  ValidateCurToken,
-  folderController.getAllFolders
+  "/folders/user/:userId",
+  verifyToken,
+  FolderController.getFoldersByUser
 );
 
-//* Route to get a single folder by ID
-router.get("/folders/:id", ValidateCurToken, folderController.getFolderById);
+//* Route to get a specific folder by its ID
+router.get("/folders/:folderId", verifyToken, FolderController.getFolderById);
 
-//* Route to delete a folder by ID
-router.delete("/folders/:id", folderController.deleteFolder);
+//* Route to update a folder by its ID
+router.put("/folders/:folderId", verifyToken, FolderController.updateFolder);
 
-//* Route to create a subfolder with form-data
-router.post(
-  "/folders/subfolder",
-  folderController.upload.array("files"),
-  folderController.createSubfolder
-);
+//* Route to delete a folder by its ID
+router.delete("/folders/:folderId", verifyToken, FolderController.deleteFolder);
 
 module.exports = router;

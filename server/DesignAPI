@@ -1,0 +1,69 @@
+> > > > > > > INSTRUCTION TO DESIGN AN API
+
+Create a 3 schemas/collection as given below
+
+1] folders
+2] forms
+3] userActions
+
+Note: All these schemas need to define inside the model
+
+Here are the details for each schemas, what and how to store the data
+
+1] folders
+
+A single user can hold many different folders so the way to identify the created folder is `userId`
+
+The schema for "Folder" will look like below
+
+{
+`folderName`: it is string type and required,
+`userId`: String type and required
+`folderId`: it created automatically
+}
+
+2] Forms
+
+Actually form may or may not be a children of the folder, it means each form may grouped under a specific folder but not necessarily.
+Hence for each forms we dont need formId
+
+The schema for "Forms" will look like below
+
+{
+`userId`: String type and required,
+`FolderId`: it may be null or have some value,
+`formName`: This is optional we will set the default name in controller
+`sharedLinks`: each individual form consist this link it must be unique
+`formDetails`: formDetails consist of the array of objects , as we are creating formBot so for this each form consists the information related to Bubbles and inputs
+
+// Here how formDeatils look like:
+[
+{
+`inputType`: it is of any among these options [`Bubbles`, `inputs`],
+`userValue`: This is mixed type we can expect the input from the user anything like number, email, date
+//NOTE: If the inputType is Bubble then userValue is empty ""
+`completionStatus`: boolean and required,
+`countForCompletion`: if it is of type Bubble then its False, if the type is input then its true
+
+    },{},{}
+
+]
+}
+
+3] userAction
+
+userAction consist of the sharedLink as a unique id, for each shared link we need the below information
+
+- How many users viewed this form [this is unique view or unique users viewed this form]
+- How many users started the form
+- Completion rate of this form based on the shared link
+  The schema may look like below
+
+{userId,
+`sharedLink`: unique link,
+`userResponse`: this is again folllow the same structre as formDeatils with another proptery `userValue`, it contains all the responses of the same form
+`completionRate`: to calculate this we go through the above `userResponse`, then calculate the individual forms completion rate and then compare with the whole response countForCompletion
+
+}
+
+Please create a schema as per the above description, make a seprate folder for each schema

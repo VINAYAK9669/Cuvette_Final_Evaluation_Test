@@ -8,7 +8,7 @@ const loginUserURL = `${BASE_URL}user/login`;
 const createFolderURL = `${BASE_URL}api/folders`;
 const getFolderByUserIdURL = `${BASE_URL}api/folders/by-user?userId=`;
 const getFolderbyIdURL = `${BASE_URL}api/folders/:id`;
-const deleteFolderByIdURL = `${BASE_URL}api/folders/:id`;
+const deleteFolderByIdURL = `${BASE_URL}api/folders`;
 const createSubFoldersURL = `${BASE_URL}folders/subfolder`;
 
 export {

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useApiFun from "./useApiFun";
 import { useDispatch, useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
@@ -17,13 +17,19 @@ import ValidateCurToken from "../hooks/useValidateToken";
 function useAuthentication() {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+  const { userID } = useParams();
 
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.auth);
 
   // Destructure all the functions related to API
-  const { addNewUser, loginUser, createFolderFun, getFoldersbyUserIdFun } =
-    useApiFun();
+  const {
+    addNewUser,
+    loginUser,
+    createFolderFun,
+    getFoldersbyUserIdFun,
+    deleteFolderByIdFun,
+  } = useApiFun();
 
   // TODO:  ================== Functions Logic ===================
   // * Handle signup once we get response from server
@@ -126,8 +132,27 @@ function useAuthentication() {
       dispatch(setUserFolders(response.data));
     },
   });
+  // TODO: Delete folders based on ID
 
-  return { addUser, userLogin, createFolder, fetchAllFolders };
+  const deleteFolderById = useMutation({
+    mutationKey: ["deleteFolders"],
+    mutationFn: deleteFolderByIdFun,
+    onSuccess: async (data) => {
+      console.log(data);
+      if (data.response.status === 200) {
+        fetchAllFolders.mutate(userID);
+      } else {
+        console.log("Something Went Wrong");
+      }
+    },
+  });
+  return {
+    addUser,
+    userLogin,
+    createFolder,
+    fetchAllFolders,
+    deleteFolderById,
+  };
 }
 
 export default useAuthentication;

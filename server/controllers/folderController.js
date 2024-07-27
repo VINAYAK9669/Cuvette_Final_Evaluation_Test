@@ -1,174 +1,119 @@
 const Folder = require("../model/Folder");
-const User = require("../model/User");
-const { upload } = require("../middlewares/multer");
+const Form = require("../model/Form");
 
-// TODO: Create a folder
-exports.createFolder = async (req, res) => {
-  try {
-    const { name = "", parentFolder, createdBy } = req.body;
+// Controller to handle all Folder related operations
+const FolderController = {
+  //TODO: Function to create a new folder
+  createFolder: async (req, res) => {
+    try {
+      const { folderName, userId } = req.body;
 
-    //* Check if the createdBy field is present
-    if (!createdBy) {
-      return res
-        .status(400)
-        .json({ message: "user Identification is required" });
+      // Creating a new folder instance
+      const newFolder = new Folder({
+        folderName,
+        userId,
+      });
+
+      // Saving the new folder to the database
+      const savedFolder = await newFolder.save();
+
+      // Sending the saved folder as response
+      res.status(201).json(savedFolder);
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
     }
+  },
 
-    //* Create a new folder
-    const folder = new Folder({ name, parentFolder, createdBy });
-    await folder.save();
-    res.status(201).json(folder);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to create folder", error });
-  }
+  //TODO: Function to get all folders for a specific user
+  getFoldersByUser: async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // Finding all folders created by the specific user
+      const folders = await Folder.find({ userId });
+
+      // Sending the folders as response
+      res.status(200).json(folders);
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  //TODO: Function to get a specific folder by its ID
+  getFolderById: async (req, res) => {
+    try {
+      const { folderId } = req.params;
+
+      // Finding the folder by its ID
+      const folder = await Folder.findById(folderId);
+
+      if (!folder) {
+        // Sending a 404 response if the folder is not found
+        return res.status(404).json({ error: "Folder not found" });
+      }
+
+      // Sending the found folder as response
+      res.status(200).json(folder);
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  //TODO: Function to update a folder by its ID >>>> NOT Required
+  updateFolder: async (req, res) => {
+    try {
+      const { folderId } = req.params;
+      const { folderName } = req.body;
+
+      // Finding the folder by its ID and updating its name
+      const updatedFolder = await Folder.findByIdAndUpdate(
+        folderId,
+        { folderName },
+        { new: true }
+      );
+
+      if (!updatedFolder) {
+        // Sending a 404 response if the folder is not found
+        return res.status(404).json({ error: "Folder not found" });
+      }
+
+      // Sending the updated folder as response
+      res.status(200).json(updatedFolder);
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  //TODO: Function to delete a folder by its ID
+  // Function to delete a folder by its ID
+  deleteFolder: async (req, res) => {
+    try {
+      const { folderId } = req.params;
+
+      // Finding the folder by its ID and deleting it
+      const deletedFolder = await Folder.findByIdAndDelete(folderId);
+
+      if (!deletedFolder) {
+        // Sending a 404 response if the folder is not found
+        return res.status(404).json({ error: "Folder not found" });
+      }
+
+      // Deleting all forms associated with the folder
+      await Form.deleteMany({ folderId });
+
+      // Sending a success message as response
+      res
+        .status(200)
+        .json({ message: "Folder and associated forms deleted successfully" });
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
-//TODO: Get all folders
-// exports.getAllFolders = async (req, res) => {
-//   try {
-//     const { userId } = req.query;
-
-//     if (!userId) {
-//       return res.status(400).json({ message: "User ID is required" });
-//     }
-
-//     // Check if the user exists
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ message: "User does not exist" });
-//     }
-
-//     // Get folders created by the user and populate subfolders
-//     const folders = await Folder.find({ createdBy: userId }).populate({
-//       path: "subfolders",
-//       populate: { path: "subfolders" }, // Populate nested subfolders if needed
-//     });
-
-//     res.status(200).json(folders);
-//   } catch (error) {
-//     console.error("Error getting folders:", error); // Log the error for debugging
-//     res.status(500).json({
-//       message: "Failed to get folders",
-//       error: error.message || error,
-//     });
-//   }
-// };
-exports.getAllFolders = async (req, res) => {
-  try {
-    const { userId } = req.query;
-
-    if (!userId) {
-      return res.status(400).json({ message: "User ID is required" });
-    }
-
-    // Check if the user exists
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User does not exist" });
-    }
-
-    // Get folders created by the user and populate subfolders
-    const folders = await Folder.find({ createdBy: userId }).populate({
-      path: "subfolders",
-      populate: { path: "subfolders" }, // Populate nested subfolders if needed
-    });
-
-    // Categorize folders
-    const titledFolders = folders.filter(
-      (folder) => folder.name && folder.name.trim() !== ""
-    );
-    const untitledFolders = folders.filter(
-      (folder) => !folder.name || folder.name.trim() === ""
-    );
-
-    res.status(200).json({
-      titledFolders,
-      untitledFolders,
-    });
-  } catch (error) {
-    console.error("Error getting folders:", error); // Log the error for debugging
-    res.status(500).json({
-      message: "Failed to get folders",
-      error: error.message || error,
-    });
-  }
-};
-
-//TODO: Get a single folder by ID
-exports.getFolderById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const folder = await Folder.findById(id);
-    if (!folder) {
-      return res.status(404).json({ message: "Folder not found" });
-    }
-    res.status(200).json(folder);
-  } catch (error) {
-    res.status(500).json({ message: "Failed to get folder", error });
-  }
-};
-
-//TODO: Delete a folder by ID
-exports.deleteFolder = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const folder = await Folder.findByIdAndDelete(id);
-    if (!folder) {
-      return res.status(404).json({ message: "Folder not found" });
-    }
-    res.status(200).json({ message: "Folder deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Failed to delete folder", error });
-  }
-};
-
-// Controller to create a subfolder with form-data
-exports.createSubfolder = async (req, res) => {
-  try {
-    // Access form-data fields
-    const { name, parentFolderId, createdBy } = req.body;
-
-    // Validate parent folder ID format
-    if (!parentFolderId.match(/^[0-9a-fA-F]{24}$/)) {
-      return res
-        .status(400)
-        .json({ message: "Invalid parent folder ID format" });
-    }
-
-    // Find the parent folder
-    const parentFolder = await Folder.findById(parentFolderId);
-    if (!parentFolder) {
-      return res.status(404).json({ message: "Parent folder not found" });
-    }
-
-    // Create the subfolder
-    const subfolder = new Folder({
-      name: name || "Untitled Folder",
-      parentFolder: parentFolderId,
-      createdBy,
-    });
-
-    // Save files if any
-    if (req.files && req.files.length > 0) {
-      // Add logic to handle files
-      // For example, you could add file paths to the subfolder or save them to a database
-      subfolder.files = req.files.map((file) => file.path); // Adjust based on your schema
-    }
-
-    await subfolder.save();
-
-    // Update the parent folder's subfolders array
-    parentFolder.subfolders.push(subfolder._id);
-    await parentFolder.save();
-
-    res.status(201).json(subfolder);
-  } catch (error) {
-    console.error("Error creating subfolder:", error); // Log the error for debugging
-    res.status(500).json({
-      message: "Failed to create subfolder",
-      error: error.message || error,
-    });
-  }
-};
-// Export multer upload middleware
-exports.upload = upload;
+module.exports = FolderController;

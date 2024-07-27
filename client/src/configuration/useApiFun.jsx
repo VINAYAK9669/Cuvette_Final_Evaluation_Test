@@ -51,7 +51,7 @@ function useApiFun() {
 
   // *Create a subfolders [Will build this later]
 
-  // *GET all the folders created by user
+  // TODO: GET all the folders created by user
   const getFoldersbyUserIdFun = async (userId) => {
     try {
       const token = localStorage.getItem("token");
@@ -67,7 +67,7 @@ function useApiFun() {
     }
   };
 
-  // *GET the single folder details
+  // TODO: GET the single folder details
   const getFoldersbyIdFun = async ({ folderId: id }) => {
     try {
       const token = localStorage.getItem("token");
@@ -83,11 +83,11 @@ function useApiFun() {
     }
   };
 
-  // *DELETE the folder by ID
-  const deleteFolderByIdFun = async ({ folderId: id }) => {
+  // TODO: DELETE the folder by ID
+  const deleteFolderByIdFun = async (userId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`${deleteFolderByIdURL}/${id}`, {
+      const response = await axios.delete(`${deleteFolderByIdURL}/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -3,16 +3,22 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const cors = require("cors"); // Import CORS module
+const errorHandler = require("./middlewares/errorHandler");
 
 // TODO: 5] Import Custom Module [Routes]
 const userRoute = require("./routes/userRoute");
 const folderRoutes = require("./routes/folderRoute");
+const formRoutes = require("./routes/formRoute");
 
 // TODO: 2] Create a instance of express and declare port
 const app = express();
 const PORT = 3000;
+
 // Enable CORS
 app.use(cors());
+
+app.use(express.json()); // For JSON payloads
+app.use(express.urlencoded({ extended: true }));
 
 // TODO: 3] Listen to the server
 app.listen(PORT, () => {
@@ -39,5 +45,6 @@ app.use(express.json());
 // TODO: 6] Use the defined routes
 app.use("/user", userRoute);
 app.use("/api", folderRoutes);
-// app.use("/job", jobRoute);
-// app.use(errorHandler);
+app.use("/formapi", formRoutes);
+
+app.use(errorHandler);
