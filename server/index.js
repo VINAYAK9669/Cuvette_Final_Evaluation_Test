@@ -9,6 +9,7 @@ const errorHandler = require("./middlewares/errorHandler");
 const userRoute = require("./routes/userRoute");
 const folderRoutes = require("./routes/folderRoute");
 const formRoutes = require("./routes/formRoute");
+const userReponse = require("./routes/userResponse");
 
 // TODO: 2] Create a instance of express and declare port
 const app = express();
@@ -46,5 +47,6 @@ app.use(express.json());
 app.use("/user", userRoute);
 app.use("/api", folderRoutes);
 app.use("/formapi", formRoutes);
+app.use("/response", userReponse);
 
 app.use(errorHandler);

@@ -1,57 +1,60 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-//TODO: Define the schema for form details
-const formDetailsSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    userResponse: {
-      type: Schema.Types.Mixed,
-      default: "",
-    },
-    completionStatus: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-  },
-  { _id: false }
-);
-
-//TODO: Define the schema for user responses
-const userResponseSchema = new Schema(
-  {
-    userIPAddress: {
-      type: String,
-      required: true,
-    },
-    formDetails: [formDetailsSchema],
-  },
-  { _id: false }
-);
-
-//TODO: Define the user action schema
-const userActionSchema = new Schema({
-  userId: {
+//* Schema for form details
+const formDetailsSchema = new Schema({
+  name: {
     type: String,
     required: true,
   },
-  sharedLinks: {
+  userResponse: {
+    type: Schema.Types.Mixed,
+    default: null,
+  },
+  completionStatus: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+});
+
+//* Schema for user responses
+const userResponseSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
     type: String,
     required: true,
     unique: true,
   },
-  completionRate: {
-    type: Number,
-    required: true,
-  },
-  userResponse: [userResponseSchema],
+  formDetails: [formDetailsSchema],
 });
 
-// Create the UserAction model
-const UserAction = mongoose.model("UserAction", userActionSchema);
+//* Schema for user actions
+const sharedLinkDetails = new Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+
+  LinkDetails: [
+    {
+      sharedLink: {
+        type: String,
+        required: true,
+        unique: true,
+      },
+      totalInputs: {
+        type: Number,
+        required: true,
+      },
+      formFillerData: [userResponseSchema],
+    },
+  ],
+});
+
+const UserAction = mongoose.model("UserAction", sharedLinkDetails);
 
 module.exports = UserAction;

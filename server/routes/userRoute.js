@@ -18,5 +18,4 @@ router.post("/register", validateUser, registerUser);
 // TODO:4] Create a Login Route
 router.post("/login", handleLogin);
 
-
 module.exports = router;
