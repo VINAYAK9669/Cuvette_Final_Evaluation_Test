@@ -1,0 +1,13 @@
+<svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SVG">
+<path id="Vector" d="M50 25C50 11.1929 38.8071 0 25 0C11.1929 0 0 11.1929 0 25C0 38.8071 11.1929 50 25 50C38.8071 50 50 38.8071 50 25Z" fill="#F87171" fill-opacity="0.8"/>
+<g id="Vector_2">
+<path d="M33.3327 16.6666L16.666 33.3333L33.3327 16.6666Z" fill="black"/>
+<path d="M33.3327 16.6666L16.666 33.3333" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="Vector_3">
+<path d="M16.666 16.6666L33.3327 33.3333L16.666 16.6666Z" fill="black"/>
+<path d="M16.666 16.6666L33.3327 33.3333" stroke="white" stroke-width="3.33333" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>

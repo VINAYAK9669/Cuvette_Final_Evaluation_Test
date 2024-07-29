@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Inter:wght@100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
 body {
   margin: 0;
   line-height: normal;
@@ -25,7 +25,65 @@ body {
 
   /* Border radiuses */
   --br-7xs: 6px;
+
+  /* Small font sizes */
+  --font-size-xxs: 14px; /* Extra Extra Small */
+  --font-size-xs: 16px; /* Extra Small */
+  --font-size-sm: 18px; /* Small */
+
+  /* Medium font sizes */
+  --font-size-md: 20px; /* Medium */
+  --font-size-ml: 22px; /* Medium Large */
+  --font-size-ml2: 25px; /* Medium Large 2 */
+  --font-size-ml3: 27.33px; /* Medium Large 3 */
+  --font-size-ml4: 36px; /* Medium Large 4 */
+
+  /* Large font sizes */
+  --font-size-lg: 60px; /* Large */
+  --font-size-xl: 72px; /* Extra Large */
+
+  /* Special font sizes */
+  --font-size-special-1: 19.2px; /* Special Font Size 1 */
+  --font-size-special-2: 20px; /* Special Font Size 2 */
+
+  /* Common colors */
+  --color-white: #ffffff; /* White */
+  --color-light-grey: #a0aec0; /* Light Grey */
+  --color-dark-grey: #718096; /* Dark Grey */
+  --color-red: #ff4141; /* Red */
+  --color-dark-red: #522224; /* Dark Red */
+  --color-very-dark-grey: #1a1a1a; /* Very Dark Grey */
+  --color-medium-red: #cf3636; /* Medium Red */
+
+  /* Font weights */
+  --font-weight-regular: 400; /* Regular */
+  --font-weight-medium: 500; /* Medium */
+  --font-weight-semibold: 600; /* Semi Bold */
+  --font-weight-bold: 700; /* Bold */
+  --font-weight-extrabold: 800; /* Extra Bold */
+
+  /* Line Heights */
+  --line-height-small: 21.6px;
+  --line-height-medium: 24px;
+  --line-height-large: 27px;
+  --line-height-xl: 30px;
+  --line-height-xxl: 43.2px;
+  --line-height-huge: 72px;
+  --line-height-tiny: 16.9px;
+  --line-height-base: 19.2px;
+  --line-height-big: 41px;
+  --line-height-custom-1: 26.2px;
+  --line-height-custom-2: 27.24px;
+
+  /* Fonts */
+  --sans: "Open Sans", sans-serif;
+  --Roboto: "Roboto", sans-serif;
+  --outfit: "Outfit", sans-serif;
+  --indie: "Indie Flower", cursive;
+  --poppins: "Poppins", sans-serif;
+  --inter: "Inter", sans-serif;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -35,6 +93,10 @@ body {
 body {
   height: 100vh;
   width: 100vw;
+}
+
+.section-margin {
+  margin-bottom: 60px;
 }
 
 /*TODO: Reusabe Display classes */
@@ -57,8 +119,17 @@ body {
 .justify-center {
   justify-content: center;
 }
+.justify-end {
+  justify-content: end;
+}
 .justify-between {
   justify-content: space-between;
+}
+
+/* TODO: Reusable text properties */
+
+.text-center {
+  text-align: center;
 }
 
 /* TODO: Re-usable width properties*/
@@ -75,4 +146,12 @@ body {
 .size-screen {
   width: 100vw;
   height: 100vh;
+}
+
+/*TODO: Reusable position property */
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
 }

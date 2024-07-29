@@ -6,22 +6,25 @@ import styles from "./Nav.module.css";
 
 function Nav() {
   return (
-    <div className={styles.headerMainNavigation}>
-      <div className={styles.container}>
-        <div className={styles.link}>
-          <img className={styles.svgIcon} loading="lazy" alt="" src={logo} />
-          <div className={styles.container1}>
-            <a className={styles.formbot}>FormBot</a>
-          </div>
-        </div>
+    <div className={`flex justify-between items-center ${styles.wrapper}`}>
+      <div className={`flex items-center ${styles.logo}`}>
+        <img className={styles.svgIcon} loading="lazy" alt="" src={logo} />
+        <a className={styles.formbot}>FormBot</a>
       </div>
-      <div className={styles.nav}>
-        <Link className={styles.link1} to="/signin">
-          <span className={styles.signIn}>Sign in</span>
+
+      <div className={`flex items-center ${styles.button_container}`}>
+        <Link
+          to="/signin"
+          className={`flex items-center justify-center ${styles.signIn}`}
+        >
+          <span>Sign in</span>
         </Link>
-        <button className={styles.link2}>
-          <a className={styles.createAFormbot}>Create a FormBot</a>
-        </button>
+        <Link
+          to="/signin"
+          className={`flex items-center justify-center ${styles.createFromButton}`}
+        >
+          <span>Create a FormBot</span>
+        </Link>
       </div>
     </div>
   );

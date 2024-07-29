@@ -1,29 +1,35 @@
+import {
+  her_left_obj,
+  her_right_obj,
+  hero_image,
+} from "../../data/fileImports";
 import styles from "./Hero.module.css";
 function Hero() {
   return (
-    <div className={styles.container}>
-      <section className={styles.heading1}>
-        <h1 className={styles.buildAdvancedChatbotsContainer}>
-          <p className={styles.buildAdvancedChatbots}>
-            Build advanced chatbots
-          </p>
-          <p className={styles.visually}>visually</p>
-        </h1>
-      </section>
-      <div className={styles.container1}>
-        <div className={styles.typebotGivesYouContainer}>
-          <p className={styles.typebotGivesYou}>
-            Typebot gives you powerful blocks to create unique chat experiences.
-            Embed them anywhere on your web/mobile apps and start collecting
-            results like magic.
-          </p>
-        </div>
+    <div className={`flex flex-col justify-between ${styles.wrapper}`}>
+      <h1 className={`text-center ${styles.heading1}`}>
+        Build advanced chatbots <br></br>{" "}
+        <span className={styles.headingColor}>visually</span>
+      </h1>
+
+      <p className={`text-center ${styles.para}`}>
+        Typebot gives you powerful blocks to create unique chat experiences.
+        Embed them <br /> anywhere on your web/mobile apps and start collecting
+        results like magic.
+      </p>
+
+      <button className={`${styles.button}`}>Create a FormBot for free</button>
+
+      <div className={styles.img_section}>
+        <img src={hero_image} />
       </div>
-      <button className={styles.container2}>
-        <div className={styles.link}>
-          <div className={styles.createAFormbot}>Create a FormBot for free</div>
-        </div>
-      </button>
+      {/* Below images are background images */}
+      <div className={styles.left_img_div}>
+        <img src={her_left_obj} />
+      </div>
+      <div className={styles.right_img_div}>
+        <img src={her_right_obj} />
+      </div>
     </div>
   );
 }
