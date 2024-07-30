@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../configuration/authSlice";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
+import styles from "./DashboardLayout.module.css";
+import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -28,20 +30,27 @@ function Dashboard() {
 
   // Check if the URL contains the word 'settings'
   const isSettingsPage = location.pathname.includes("settings");
+  const isWorkSpaceTool = location.pathname.includes("workspacetool");
 
   return (
-    <div className="flex flex-col h-screen w-screen">
-      <div>
-        {!isSettingsPage && (
-          <select onChange={handleOptions}>
-            {headerOptions.map((curOption) => (
-              <option key={curOption.id} value={curOption.value}>
-                {curOption.option}
-              </option>
-            ))}
-          </select>
-        )}
-      </div>
+    <div className="flex flex-col justify-center h-screen w-screen">
+      {!isSettingsPage && !isWorkSpaceTool && (
+        <div className={styles.menu}>
+          <div className={styles.wrapper}>
+            <select
+              onChange={handleOptions}
+              className={styles.optionsContainer}
+            >
+              {headerOptions.map((curOption) => (
+                <option key={curOption.id} value={curOption.value}>
+                  {curOption.option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+      {isWorkSpaceTool && <NavWorkSpaceTool />}
       <div className="size-full flex flex-col">
         <Outlet />
       </div>

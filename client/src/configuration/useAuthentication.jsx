@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import useApiFun from "./useApiFun";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,22 +14,28 @@ import {
   setUserFolders,
 } from "./authSlice";
 import ValidateCurToken from "../hooks/useValidateToken";
+import toast from "react-hot-toast";
+import { onCloseModal } from "../pages/modalSlice";
+import { useEffect } from "react";
 
 function useAuthentication() {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const { userID } = useParams();
-
   const navigate = useNavigate();
-  const { currentUser } = useSelector((state) => state.auth);
+  const { currentUser, selectedFolder } = useSelector((state) => state.auth);
 
-  // Destructure all the functions related to API
+  //* Destructure all the functions related to API
   const {
     addNewUser,
     loginUser,
     createFolderFun,
     getFoldersbyUserIdFun,
     deleteFolderByIdFun,
+    getFormWithoutFolderIdFun,
+    deleteFromByIdFun,
+    getFormWithFolderIdFun,
+    createFormFun,
   } = useApiFun();
 
   // TODO:  ================== Functions Logic ===================
@@ -45,7 +52,7 @@ function useAuthentication() {
       if (response.status === 400) {
         dispatch(setFormErrorMessage("User already Exists"));
       }
-      // Invalidate and refetch
+      //* Invalidate and refetch
       queryClient.invalidateQueries("newUserDetails");
     } catch (error) {
       console.error("Initialization Error:", error);
@@ -90,13 +97,18 @@ function useAuthentication() {
     try {
       if (response.status === 201) {
         const { userID } = await JSON.parse(localStorage.getItem("loggedUser"));
-
+        toast.success("New Folder is Created!");
+        dispatch(onCloseModal());
         fetchAllFolders.mutate(userID);
       }
     } catch (error) {
+      toast.error("Something Went Wrong!");
       throw new error();
     }
   };
+
+  // *Handle Form in folder by selectedFolder
+
   // TODO: ==================== React Query Logics ==============
 
   // TODO: 1] User REGISTERATION
@@ -138,12 +150,51 @@ function useAuthentication() {
     mutationKey: ["deleteFolders"],
     mutationFn: deleteFolderByIdFun,
     onSuccess: async (data) => {
-      console.log(data);
       if (data.response.status === 200) {
         fetchAllFolders.mutate(userID);
+        toast.success("Folder Deleted");
       } else {
         console.log("Something Went Wrong");
       }
+    },
+  });
+
+  // TODO: Fetch all the form with folderId
+  const formsWithUserId = useQuery({
+    queryKey: ["Forms"],
+    queryFn: async () => {
+      return getFormWithFolderIdFun({
+        userId: userID,
+        folderId: selectedFolder,
+      });
+    },
+    enabled: !!localStorage.getItem("token"),
+  });
+
+  useEffect(() => {
+    formsWithUserId.refetch();
+  }, [selectedFolder || formsWithUserId.isSuccess]);
+
+  // TODO: delete a form with formId
+  const deleteFormById = useMutation({
+    mutationKey: ["deleteFolders"],
+    mutationFn: deleteFromByIdFun,
+    onSuccess: async (data) => {
+      console.log(data);
+      formsWithUserId.refetch();
+    },
+  });
+
+  const createForm = useMutation({
+    mutationKey: ["createForm"],
+    mutationFn: createFormFun,
+    onSuccess: (data) => {
+      toast.success("Form created successfully");
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
+      toast.error("Failed to create form");
+      console.error(error);
     },
   });
   return {
@@ -152,6 +203,9 @@ function useAuthentication() {
     createFolder,
     fetchAllFolders,
     deleteFolderById,
+    deleteFormById,
+    formsWithUserId,
+    createForm,
   };
 }
 

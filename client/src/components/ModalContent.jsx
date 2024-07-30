@@ -16,10 +16,10 @@ function ModalContent({ children }) {
         contentLabel="Example Modal"
         style={{
           overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.75)",
+            backgroundColor: "rgba(0, 0, 0, 0.1)",
           },
           content: {
-            top: "50%",
+            top: "30%",
             left: "50%",
             right: "auto",
             bottom: "auto",
@@ -27,6 +27,7 @@ function ModalContent({ children }) {
             transform: "translate(-50%, -50%)",
             padding: "20px",
             borderRadius: "10px",
+            backgroundColor: "rgba(24, 24, 27, 1)",
           },
         }}
       >

@@ -4,6 +4,8 @@ import useAuthentication from "../configuration/useAuthentication";
 import { useSelector } from "react-redux";
 import styles from "./SignInPage.module.css";
 import { Link } from "react-router-dom";
+import { arrow_back } from "../data/fileImports";
+import useGoBack from "../hooks/useGoBack";
 
 function SignInPage() {
   const { formErrorMessage } = useSelector((state) => state.auth);
@@ -19,10 +21,15 @@ function SignInPage() {
     userLogin.mutate(data);
   };
 
+  const goBack = useGoBack();
+
   return (
     <div
       className={`w-screen h-screen flex items-center justify-center ${styles.container}`}
     >
+      <div className={styles.flot_arrow_back}>
+        <img src={arrow_back} onClick={() => goBack()} />
+      </div>
       <form
         className={`flex flex-col ${styles.input_wrapper}`}
         onSubmit={handleSubmit(onSubmit)}
@@ -34,6 +41,7 @@ function SignInPage() {
                 ? styles.label
                 : `${styles.label} ${styles["label-error"]}`
             }
+            htmlFor="email"
           >
             Email
           </label>
@@ -52,6 +60,7 @@ function SignInPage() {
                 : `${styles["error-border"]} ${styles.input}`
             }
             placeholder="Enter your email"
+            id="email"
           />
           {errors.email && (
             <p className={styles.error}>{errors.email.message}</p>
@@ -64,6 +73,7 @@ function SignInPage() {
                 ? styles.label
                 : `${styles.label} ${styles["label-error"]}`
             }
+            htmlFor="password"
           >
             Password
           </label>
@@ -82,6 +92,7 @@ function SignInPage() {
                 : `${styles["error-border"]} ${styles.input}`
             }
             placeholder="*******"
+            id="password"
           />
           {errors.password && (
             <p className={styles.error}>{errors.password.message}</p>
@@ -94,7 +105,9 @@ function SignInPage() {
           </button>
           <p className={`text-center ${styles.options}`}>
             <span>Don&apos;t have an account? </span>{" "}
-            <Link className={styles.register}>Register now</Link>
+            <Link to="/signup" className={styles.register}>
+              Register now
+            </Link>
           </p>
         </div>
       </form>

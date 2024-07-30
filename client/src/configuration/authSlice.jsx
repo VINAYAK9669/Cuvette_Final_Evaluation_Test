@@ -11,6 +11,7 @@ const initialState = {
   modalStatus: false,
   //* Folder Details
   userFolders: [],
+  selectedFolder: null,
 };
 
 const authSlice = createSlice({
@@ -40,7 +41,15 @@ const authSlice = createSlice({
       state.modalStatus = action.payload;
     },
     setUserFolders(state, action) {
-      state.userFolders = [action.payload];
+      state.userFolders = action.payload;
+    },
+    setSelectedFolder(state, action) {
+      state.selectedFolder = action.payload;
+      const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+      if (loggedUser) {
+        loggedUser.currentSelectedFolder = action.payload;
+        localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+      }
     },
   },
 });
@@ -52,5 +61,7 @@ export const {
   setCurrentUser,
   setFormErrorMessage,
   setUserFolders,
+  setSelectedFolder,
+  setforms,
 } = authSlice.actions;
 export default authSlice.reducer;

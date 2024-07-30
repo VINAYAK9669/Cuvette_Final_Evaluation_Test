@@ -5,7 +5,12 @@
     url("/assets/Signin/bottom-cake.png") no-repeat;
   background-position: 70% 100%, 100% 25%, 20% 35%, 19% 38%;
 }
-
+.flot_arrow_back {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  cursor: pointer;
+}
 .input_wrapper {
   row-gap: 1.5rem;
   width: 314px;
@@ -69,6 +74,7 @@
   color: rgba(82, 34, 36, 1);
   font-family: var(--poppins);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .error-border {

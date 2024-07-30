@@ -15,6 +15,15 @@ import form_gif from "/assets/Form_section/form_section_gif.gif";
 import form_hi_image from "/assets/Form_section/form_section_hi_image.svg";
 import form_arrow_mark from "/assets/Form_section/form_section_arrow_icon.svg";
 
+// *Import SignIn Icons
+import arrow_back from "/assets/Signin/arrow_back.svg";
+
+// *Import Workspace Icons
+import createFolderIcon from "/assets/Workspace/create_folder_icon.svg";
+import delete_icon from "/assets/Workspace/delete_icon.svg";
+import plus_icon from "/assets/Workspace/plus_icon.svg";
+import closeIcon from "/assets/Workspace/close.svg";
+
 export {
   logo,
   hero_image,
@@ -27,4 +36,9 @@ export {
   form_gif,
   form_hi_image,
   form_arrow_mark,
+  arrow_back,
+  createFolderIcon,
+  delete_icon,
+  plus_icon,
+  closeIcon,
 };

@@ -57,16 +57,24 @@ const FormController = {
   //TODO: Function to get all forms in a specific folder
   getFormsByFolder: async (req, res) => {
     try {
-      const { folderId } = req.params;
+      const { folderId, userId } = req.params;
+      console.log(folderId, userId);
 
-      // Finding all forms in the specific folder
-      const forms = await Form.find({ folderId });
+      const query = folderId
+        ? { folderId, userId }
+        : { folderId: null, userId };
+
+      // Finding all forms for the specific query
+      const forms = await Form.find(query);
+
+      console.log(`Found ${forms.length} forms`); // Log the number of forms found
 
       // Sending the forms as response
       res.status(200).json(forms);
     } catch (error) {
+      console.error("Error fetching forms:", error); // Log the error
       // Sending error response if something goes wrong
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: "Something went wrong" });
     }
   },
 
@@ -162,6 +170,22 @@ const FormController = {
       res.status(200).json(updatedForm);
     } catch (error) {
       // Handle errors and send error response
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  // TODO: Method to get all the forms without the folderId
+  getFormsWithoutFolder: async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      // Finding all forms where folderId is null and userId matches
+      const forms = await Form.find({ folderId: null, userId });
+
+      // Sending the forms as response
+      res.status(200).json(forms);
+    } catch (error) {
+      // Sending error response if something goes wrong
       res.status(500).json({ error: error.message });
     }
   },

@@ -11,10 +11,15 @@ import {
   getFolderbyIdURL,
   deleteFolderByIdURL,
   createSubFoldersURL,
+  getFormWithoutFolderIdURL,
+  deleteFormByIdURL,
+  getFormsByUserIdURL,
 } from "../data/apiURL";
+import { useSelector } from "react-redux";
 
 // * This Custom hook which involve the Logic to send the request to the server and return the response
 function useApiFun() {
+  const { selectedFolder } = useSelector((state) => state.auth);
   // TODO: ========= User Register Function
   const addNewUser = async (newUser) => {
     try {
@@ -84,18 +89,59 @@ function useApiFun() {
   };
 
   // TODO: DELETE the folder by ID
-  const deleteFolderByIdFun = async (userId) => {
+  const deleteFolderByIdFun = async (folderId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.delete(`${deleteFolderByIdURL}/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.delete(
+        `${deleteFolderByIdURL}/${folderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return { response };
     } catch (error) {
       console.error("Error fetching folders:", error);
       throw error;
+    }
+  };
+
+  //TODO: Delete form by Id
+
+  const deleteFromByIdFun = async (formId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(`${deleteFormByIdURL}/${formId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error("Error fetching folders:", error);
+      throw error;
+    }
+  };
+
+  // TODO: FETCH forms
+  const getFormWithFolderIdFun = async ({ folderId, userId }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/formapi/folder/forms/${userId}/${
+          folderId ? folderId : ""
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching forms:", error);
+      return error;
     }
   };
 
@@ -120,6 +166,26 @@ function useApiFun() {
     }
   };
 
+  // TODO
+  const createFormFun = async (formData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "http://localhost:3000/formapi/createform",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error creating form:", error);
+      throw error;
+    }
+  };
+
   return {
     addNewUser,
     loginUser,
@@ -128,6 +194,9 @@ function useApiFun() {
     getFoldersbyUserIdFun,
     getFoldersbyIdFun,
     deleteFolderByIdFun,
+    deleteFromByIdFun,
+    getFormWithFolderIdFun,
+    createFormFun,
   };
 }
 

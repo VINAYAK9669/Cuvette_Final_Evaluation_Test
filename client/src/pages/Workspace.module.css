@@ -1,0 +1,44 @@
+.container {
+  width: 70%;
+  margin: 40px auto;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  height: 100%;
+  margin-bottom: 0;
+  font-family: var(--sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-xs);
+}
+.folder_section {
+  height: 40px;
+  /* background-color: green; */
+}
+.create_folder {
+  background-color: rgba(255, 255, 255, 0.08);
+  height: 48px;
+  padding: 8px 16px 8px 16px;
+  border-radius: var(--br-7xs);
+  cursor: pointer;
+}
+.folderLists {
+  /* background-color: red; */
+  width: 85%;
+  column-gap: 2rem;
+  overflow: scroll;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.folderList {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  padding: 8px 16px 8px 16px;
+  border-radius: var(--br-7xs);
+  background-color: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+}

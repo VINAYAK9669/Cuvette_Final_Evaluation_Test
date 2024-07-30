@@ -5,7 +5,11 @@ import {
   setCurrentUser,
   setFormErrorMessage,
 } from "../configuration/authSlice";
+import styles from "./SignInPage.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { arrow_back } from "../data/fileImports";
+import useGoBack from "../hooks/useGoBack";
 
 const SignupPage = () => {
   const { formErrorMessage } = useSelector((state) => state.auth);
@@ -28,20 +32,50 @@ const SignupPage = () => {
   };
   const password = watch("password", "");
 
+  const goBack = useGoBack();
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label>Username</label>
+    <div
+      className={`w-screen h-screen flex items-center justify-center ${styles.container}`}
+    >
+      <div className={styles.flot_arrow_back}>
+        <img src={arrow_back} onClick={() => goBack()} />
+      </div>
+      <form
+        className={`flex flex-col ${styles.input_wrapper}`}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className={styles.input_div}>
+          <label
+            className={
+              !errors.name
+                ? styles.label
+                : `${styles.label} ${styles["label-error"]}`
+            }
+          >
+            Username
+          </label>
           <input
             type="text"
             {...register("name", { required: "Username is required" })}
             placeholder="Enter your username"
+            className={
+              !errors.name
+                ? `${styles.input}`
+                : `${styles["error-border"]} ${styles.input}`
+            }
           />
-          {errors.name && <p style={{ color: "red" }}>{errors.name.message}</p>}
+          {errors.name && <p className={styles.error}>{errors.name.message}</p>}
         </div>
-        <div>
-          <label>Email</label>
+        <div className={styles.input_div}>
+          <label
+            className={
+              !errors.email
+                ? styles.label
+                : `${styles.label} ${styles["label-error"]}`
+            }
+          >
+            Email
+          </label>
           <input
             type="email"
             {...register("email", {
@@ -52,13 +86,26 @@ const SignupPage = () => {
               },
             })}
             placeholder="Enter your email"
+            className={
+              !errors.email
+                ? `${styles.input}`
+                : `${styles["error-border"]} ${styles.input}`
+            }
           />
           {errors.email && (
-            <p style={{ color: "red" }}>{errors.email.message}</p>
+            <p className={styles.error}>{errors.email.message}</p>
           )}
         </div>
-        <div>
-          <label>Password</label>
+        <div className={styles.input_div}>
+          <label
+            className={
+              !errors.password
+                ? styles.label
+                : `${styles.label} ${styles["label-error"]}`
+            }
+          >
+            Password
+          </label>
           <input
             type="password"
             {...register("password", {
@@ -69,13 +116,26 @@ const SignupPage = () => {
               },
             })}
             placeholder="Enter your password"
+            className={
+              !errors.password
+                ? `${styles.input}`
+                : `${styles["error-border"]} ${styles.input}`
+            }
           />
           {errors.password && (
-            <p style={{ color: "red" }}>{errors.password.message}</p>
+            <p className={styles.error}>{errors.password.message}</p>
           )}
         </div>
-        <div>
-          <label>Confirm Password</label>
+        <div className={styles.input_div}>
+          <label
+            className={
+              !errors.confirmPassword
+                ? styles.label
+                : `${styles.label} ${styles["label-error"]}`
+            }
+          >
+            Confirm Password
+          </label>
           <input
             type="password"
             {...register("confirmPassword", {
@@ -84,13 +144,26 @@ const SignupPage = () => {
                 value === password || "Passwords do not match",
             })}
             placeholder="Confirm your password"
+            className={
+              !errors.confirmPassword
+                ? `${styles.input}`
+                : `${styles["error-border"]} ${styles.input}`
+            }
           />
           {errors.confirmPassword && (
-            <p style={{ color: "red" }}>{errors.confirmPassword.message}</p>
+            <p className={styles.error}>{errors.confirmPassword.message}</p>
           )}
         </div>
         {formErrorMessage && <p>{formErrorMessage}</p>}
-        <button type="submit">Sign Up</button>
+        <button type="submit" className={styles.button}>
+          Sign Up
+        </button>
+        <p className={`text-center ${styles.options}`}>
+          <span>Don&apos;t have an account? </span>{" "}
+          <Link to="/signin" className={styles.register}>
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   );

@@ -98,6 +98,50 @@ body {
 .section-margin {
   margin-bottom: 60px;
 }
+/*TODO: Modal Styling */
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 540px;
+  height: 261px;
+  font-family: var(--sans);
+  padding: 1rem;
+}
+.modalContent input {
+  height: 73px;
+  background-color: rgba(31, 31, 35, 1);
+  outline: none;
+  border: none;
+  font-size: 20px;
+
+  font-weight: var(--font-weight-semibold);
+  padding-left: 1rem;
+  color: white;
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.buttons button {
+  line-height: 41px;
+  background-color: transparent;
+  border: none;
+  font-size: var(--sans);
+  font-weight: var(--font-weight-semibold);
+  font-size: 28px;
+  color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+}
+.buttons span {
+  height: 100%;
+  width: 2px;
+  background-color: rgba(71, 71, 74, 1);
+}
+.buttons button:first-child {
+  color: rgba(75, 131, 255, 1);
+}
 
 /*TODO: Reusabe Display classes */
 .flex {

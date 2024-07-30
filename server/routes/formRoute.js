@@ -11,7 +11,7 @@ router.get("/user/form/:userId", verifyToken, FormController.getFormsByUser);
 
 //* Route to get all forms in a specific folder
 router.get(
-  "/folder/forms/:folderId",
+  "/folder/forms/:userId/:folderId?",
   verifyToken,
   FormController.getFormsByFolder
 );
@@ -27,5 +27,11 @@ router.delete("/form/delete/:formId", verifyToken, FormController.deleteForm);
 
 //* Route to update form details of a specific form
 router.put("/form/update/:formId", FormController.updateFormDetails);
+
+// * Route to get forms without the folderid
+router.get(
+  "/form/withoutfolderId/:userId",
+  FormController.getFormsWithoutFolder
+);
 
 module.exports = router;

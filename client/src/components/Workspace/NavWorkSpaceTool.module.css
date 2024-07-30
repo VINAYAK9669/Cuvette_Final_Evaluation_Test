@@ -1,0 +1,59 @@
+.container {
+  padding: 1rem 1rem;
+  background-color: rgba(24, 24, 27, 1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+.inputDiv input {
+  outline: none;
+  border: none;
+  background-color: rgba(55, 55, 62, 1);
+  height: 23px;
+  border-radius: 3px;
+  padding: 1rem;
+  color: white;
+}
+.middle_options {
+  column-gap: 2.5rem;
+  height: 32px;
+}
+
+.path {
+  height: 100%;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-xxs);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  text-decoration: none;
+}
+.active_div {
+  height: 100%;
+  border: 1px solid rgba(126, 166, 255, 1);
+  padding: 12.5px 13.5px;
+  border-radius: 8px;
+  display: flex;
+}
+
+.buttons {
+  column-gap: 1rem;
+  height: 25px;
+  align-items: center;
+}
+.buttons button {
+  height: 100%;
+  padding: 2px 13px;
+  color: white;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  background-color: rgba(132, 136, 144, 1);
+  border-radius: 4px;
+}
+.saveButton {
+  background-color: rgba(74, 222, 128, 0.8) !important;
+}
+.buttons img {
+  cursor: pointer;
+}

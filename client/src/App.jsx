@@ -10,14 +10,15 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import DashboardLayout from "./pages/DashboardLayout";
+import toast, { Toaster } from "react-hot-toast";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./configuration/authSlice";
 import SettingPage from "./pages/SettingPage";
 import WorkSpace from "./pages/WorkSpace";
 import { useEffect } from "react";
-import Nav from "./components/HomePage/Nav";
 import WorkspaceTool from "./pages/WorkspaceTool";
+import NavWorkSpaceTool from "./components/Workspace/NavWorkSpaceTool";
 
 // *Create a client
 const queryClient = new QueryClient();
@@ -46,13 +47,17 @@ function App() {
               element={<ProtectedRoute element={DashboardLayout} />}
             >
               <Route index element={<WorkSpace />} />
-              <Route path="workspacetool" element={<WorkspaceTool />} />
+              <Route
+                path="workspacetool/:folderId?"
+                element={<WorkspaceTool />}
+              />
               <Route path="settings" element={<SettingPage />} />
             </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Routes>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
+        <Toaster position="top-right" reverseOrder={false} />
       </QueryClientProvider>
     </>
   );
