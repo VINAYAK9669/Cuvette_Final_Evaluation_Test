@@ -1,0 +1,26 @@
+.wrapper {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(18, 18, 18, 1);
+  height: 300px;
+  padding-top: 2rem;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  width: 968px;
+}
+.container div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.container div p {
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: var(--font-size-xs);
+  color: rgba(255, 255, 255, 0.92);
+}

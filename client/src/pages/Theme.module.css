@@ -1,0 +1,61 @@
+.wrapper {
+  display: flex;
+  column-gap: 0rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.asideContainer {
+  height: 100%;
+  /* background-color: red; */
+  margin: 1rem 2rem;
+  width: 344px;
+  padding: 65px 17px;
+  background-color: rgba(24, 24, 27, 1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.header {
+  font-size: var(--font-size-xxs);
+  font-family: var(--sans);
+  line-height: var(--line-height-small);
+  margin-bottom: 1rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 2rem;
+}
+.cards div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+}
+
+.mainSpace {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  height: 100%;
+  row-gap: 2rem;
+  padding: 3rem 5rem;
+}
+.mainSpace div {
+  display: flex;
+  align-items: center;
+  column-gap: 1em;
+}
+.mainSpace div:last-child {
+  width: 100%;
+  justify-content: end;
+}

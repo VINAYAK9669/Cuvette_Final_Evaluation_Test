@@ -19,6 +19,8 @@ import WorkSpace from "./pages/WorkSpace";
 import { useEffect } from "react";
 import WorkspaceTool from "./pages/WorkspaceTool";
 import NavWorkSpaceTool from "./components/Workspace/NavWorkSpaceTool";
+import Theme from "./pages/Theme";
+import Analytics from "./pages/Analytics";
 
 // *Create a client
 const queryClient = new QueryClient();
@@ -48,10 +50,18 @@ function App() {
             >
               <Route index element={<WorkSpace />} />
               <Route
-                path="workspacetool/:folderId?"
+                path="workspacetool/:folderId?/flow"
                 element={<WorkspaceTool />}
               />
-              <Route path="settings" element={<SettingPage />} />
+              <Route
+                path="workspacetool/:folderId?/theme"
+                element={<Theme />}
+              />
+
+              <Route
+                path="workspacetool/:folderId?/response"
+                element={<Analytics />}
+              />
             </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Routes>

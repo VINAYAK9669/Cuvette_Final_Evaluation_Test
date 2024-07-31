@@ -1,0 +1,73 @@
+.container {
+  width: 1440px;
+  height: 900px;
+  padding: 258px 336px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #171923 0%, #1a202c 100%);
+  position: relative;
+  background: url("/assets/Signin/bread.svg") no-repeat,
+    url("/assets/Hero_section/hero_right_obj.svg") no-repeat;
+  background-position: -5% 0%, 100% 40%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1.2rem;
+  text-align: center;
+}
+.wrapper h1 {
+  font-size: 38px;
+  font-family: var(--outfit);
+  margin: 0 auto;
+}
+.wrapper p {
+  font-size: var(--font-size-xs);
+  color: rgba(160, 174, 192, 1);
+  font-family: var(--sans);
+}
+.highlighter {
+  font-weight: var(--font-weight-bold);
+}
+.button {
+  width: 200px;
+  height: 64px;
+  background-color: rgba(26, 95, 255, 1);
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 1);
+  font-family: var(--sans);
+}
+
+.img_section::before {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: -5%;
+  content: "";
+  width: 600px;
+  height: 600px;
+  border-radius: 100%;
+  background-color: rgba(230, 114, 0, 1);
+  filter: blur(25px);
+  z-index: -1;
+}
+.img_section::after {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  right: -5%;
+  content: "";
+  width: 600px;
+  height: 600px;
+  border-radius: 100%;
+  background-color: rgba(0, 66, 218, 1);
+  filter: blur(25px);
+  z-index: -1;
+}

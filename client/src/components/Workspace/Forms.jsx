@@ -41,8 +41,8 @@ function Forms() {
 
     navigate(
       `/dashboard/${userID}/workspacetool/${
-        selectedFolder ? selectedFolder : ""
-      }`
+        selectedFolder ? selectedFolder + "/" : ""
+      }flow`
     );
   }
 

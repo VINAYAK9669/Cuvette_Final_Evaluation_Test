@@ -98,6 +98,9 @@ body {
 .section-margin {
   margin-bottom: 60px;
 }
+.section-margin:last-child {
+  margin-bottom: 0;
+}
 /*TODO: Modal Styling */
 .modalContent {
   display: flex;

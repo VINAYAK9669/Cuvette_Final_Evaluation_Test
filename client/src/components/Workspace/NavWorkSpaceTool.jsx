@@ -13,7 +13,9 @@ function NavWorkSpaceTool() {
       </div>
       <div className={`flex ${styles.middle_options}`}>
         <NavLink
-          to={`/dashboard/${userID}/workspacetool/${folderId}`}
+          to={`/dashboard/${userID}/workspacetool/${
+            folderId ? folderId + "/" : ""
+          }flow`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }
@@ -22,7 +24,9 @@ function NavWorkSpaceTool() {
         </NavLink>
 
         <NavLink
-          to={`/dashboard/${userID}/workspacetool/${folderId}/theme`}
+          to={`/dashboard/${userID}/workspacetool/${
+            folderId ? folderId + "/" : ""
+          }theme`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }
@@ -31,7 +35,9 @@ function NavWorkSpaceTool() {
         </NavLink>
 
         <NavLink
-          to={`/dashboard/${userID}/workspacetool/${folderId}/response`}
+          to={`/dashboard/${userID}/workspacetool/${
+            folderId ? folderId + "/" : ""
+          }response`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }
