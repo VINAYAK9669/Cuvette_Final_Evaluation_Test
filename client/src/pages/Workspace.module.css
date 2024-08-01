@@ -13,7 +13,6 @@
 }
 .folder_section {
   height: 40px;
-  /* background-color: green; */
 }
 .create_folder {
   background-color: rgba(255, 255, 255, 0.08);
@@ -23,13 +22,17 @@
   cursor: pointer;
 }
 .folderLists {
-  /* background-color: red; */
   width: 85%;
   column-gap: 2rem;
-  overflow: scroll;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.folderLists::-webkit-scrollbar {
+  display: none;
 }
 .folderList {
   display: flex;

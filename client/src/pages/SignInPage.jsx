@@ -98,7 +98,7 @@ function SignInPage() {
             <p className={styles.error}>{errors.password.message}</p>
           )}
         </div>
-        {formErrorMessage && <p>{formErrorMessage}</p>}
+        {formErrorMessage && <p className={styles.error}>{formErrorMessage}</p>}
         <div className={`flex flex-col ${styles.buttons}`}>
           <button type="submit" className={styles.button}>
             Log In

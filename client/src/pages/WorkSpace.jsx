@@ -14,6 +14,7 @@ import { setSelectedFolder } from "../configuration/authSlice";
 function WorkSpace() {
   const dispatch = useDispatch();
   const [folderName, setFolderName] = useState("");
+  const [isCreateFolderModalOpen, setIsCreateFolderModalOpen] = useState(false);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const { userID } = useParams();
   const { createFolder, fetchAllFolders, deleteFolderById } =
@@ -22,7 +23,7 @@ function WorkSpace() {
   const folderListsRef = useRef(null);
   const createTypeBotRef = useRef(null);
   const formsRef = useRef(null);
-  const navigate = useNavigate();
+  const { modalIsOpen } = useSelector((state) => state.modal);
 
   useEffect(() => {
     fetchAllFolders.mutate(userID);
@@ -38,7 +39,6 @@ function WorkSpace() {
         formsRef.current &&
         !formsRef.current.contains(event.target)
       ) {
-        setSelectedFolderId(null);
         dispatch(setSelectedFolder(null));
       }
     };
@@ -58,9 +58,12 @@ function WorkSpace() {
     }
     const data = { folderName, userId };
     createFolder.mutate(data);
+    setFolderName("");
+    setIsCreateFolderModalOpen(false);
   }
 
   function handleOpenDeleteModal(folderId) {
+    console.log(folderId);
     setSelectedFolderId(folderId);
     dispatch(onOpenModal());
   }
@@ -71,19 +74,51 @@ function WorkSpace() {
   }
 
   function handleDeleteFolder() {
+    console.log(selectedFolderId, "Selected Folder Id");
     if (selectedFolderId) {
       deleteFolderById.mutate(selectedFolderId);
+      handleCloseDeleteModal();
+      setSelectedFolderId(null);
+    } else {
       handleCloseDeleteModal();
     }
   }
 
+  useEffect(() => {
+    if (!modalIsOpen) {
+      setIsCreateFolderModalOpen(false);
+      setSelectedFolderId(null);
+    }
+  }, [modalIsOpen]);
+
+  useEffect(() => {
+    const handleHorizontalScroll = (event) => {
+      if (event.deltaY !== 0) {
+        event.preventDefault();
+        folderListsRef.current.scrollLeft += event.deltaY;
+      }
+    };
+
+    const folderListEl = folderListsRef.current;
+    if (folderListEl) {
+      folderListEl.addEventListener("wheel", handleHorizontalScroll);
+    }
+
+    return () => {
+      if (folderListEl) {
+        folderListEl.removeEventListener("wheel", handleHorizontalScroll);
+      }
+    };
+  }, []);
   return (
     <div className={styles.container}>
       <div
         className={`flex justify-between items-center ${styles.folder_section}`}
       >
         <p
-          onClick={() => dispatch(onOpenModal())}
+          onClick={() =>
+            dispatch(onOpenModal(), setIsCreateFolderModalOpen(true))
+          }
           className={`flex items-center ${styles.create_folder}`}
           ref={createTypeBotRef}
         >
@@ -116,35 +151,43 @@ function WorkSpace() {
         </div>
       </div>
       <div className="flex" style={{ gap: "1rem" }}>
-        <ModalContent>
-          <div className="modalContent">
-            <h1>Create a Folder</h1>
-            <input
-              type="text"
-              value={folderName}
-              onChange={(e) => setFolderName(e.target.value)}
-              placeholder="Enter folder name"
-            />
-            <div className="buttons">
-              <button onClick={onSubmit}>Done</button>
-              <span></span>
-              <button onClick={() => dispatch(onCloseModal())}>Close</button>
+        {isCreateFolderModalOpen ? (
+          <ModalContent>
+            <div className="modalContent">
+              <h1>Create a Folder</h1>
+              <input
+                type="text"
+                value={folderName}
+                onChange={(e) => setFolderName(e.target.value)}
+                placeholder="Enter folder name"
+              />
+              <div className="buttons">
+                <button onClick={onSubmit}>Done</button>
+                <span></span>
+                <button
+                  onClick={() =>
+                    dispatch(onCloseModal(), setIsCreateFolderModalOpen(false))
+                  }
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        </ModalContent>
+          </ModalContent>
+        ) : (
+          <ModalContent ref={formsRef}>
+            <div className="modalContent">
+              <h1>Are you sure you want to delete this Folder?</h1>
+              <div className="buttons">
+                <button onClick={handleDeleteFolder}>Done</button>
+                <span></span>
+                <button onClick={handleCloseDeleteModal}>Close</button>
+              </div>
+            </div>
+          </ModalContent>
+        )}
       </div>
-      {selectedFolderId && (
-        <ModalContent>
-          <div className="modalContent">
-            <h1>Are you sure you want to delete this Folder?</h1>
-            <div className="buttons">
-              <button onClick={handleDeleteFolder}>Done</button>
-              <span></span>
-              <button onClick={handleCloseDeleteModal}>Close</button>
-            </div>
-          </div>
-        </ModalContent>
-      )}
+
       <div ref={formsRef}>
         <Forms />
       </div>

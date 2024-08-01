@@ -141,6 +141,7 @@ function useAuthentication() {
     mutationKey: ["userFolders"],
     mutationFn: getFoldersbyUserIdFun,
     onSuccess: async ({ response }) => {
+      console.log("");
       dispatch(setUserFolders(response.data));
     },
   });
@@ -152,6 +153,7 @@ function useAuthentication() {
     onSuccess: async (data) => {
       if (data.response.status === 200) {
         fetchAllFolders.mutate(userID);
+        dispatch(onCloseModal());
         toast.success("Folder Deleted");
       } else {
         console.log("Something Went Wrong");
@@ -180,7 +182,7 @@ function useAuthentication() {
     mutationKey: ["deleteFolders"],
     mutationFn: deleteFromByIdFun,
     onSuccess: async (data) => {
-      console.log(data);
+      toast.success("Form Deleted Successfully");
       formsWithUserId.refetch();
     },
   });
