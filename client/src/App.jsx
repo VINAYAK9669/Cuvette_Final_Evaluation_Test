@@ -50,16 +50,15 @@ function App() {
             >
               <Route index element={<WorkSpace />} />
               <Route
-                path="workspacetool/:folderId?/flow"
+                path="workspacetool/:folderId?/flow/:formId?/"
                 element={<WorkspaceTool />}
               />
               <Route
-                path="workspacetool/:folderId?/theme"
+                path="workspacetool/:folderId?/theme/:formId?/"
                 element={<Theme />}
               />
-
               <Route
-                path="workspacetool/:folderId?/response"
+                path="workspacetool/:folderId?/response/:formId?/"
                 element={<Analytics />}
               />
             </Route>

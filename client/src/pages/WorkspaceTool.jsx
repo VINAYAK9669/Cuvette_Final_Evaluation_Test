@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import flag from "/assets/Workspace/flag.svg";
 import {
-  button_input_icon,
   date_input_icon,
   email_input_icon,
   gif_icon,
@@ -12,12 +13,14 @@ import {
   text_icon,
   text_input_icon,
   video_icon,
-  delete_icon, // Import your delete icon here
+  delete_icon,
 } from "../data/fileImports";
 import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
 import styles from "./WorkspaceTool.module.css";
+import useAuthentication from "../configuration/useAuthentication";
 
 function WorkspaceTool() {
+  const { updateForm } = useAuthentication();
   const { control, handleSubmit, setValue } = useForm();
   const [mainItems, setMainItems] = useState([]);
   const [counts, setCounts] = useState({ Bubbles: {}, Inputs: {} });
@@ -104,14 +107,35 @@ function WorkspaceTool() {
       setErrors({}); // Clear errors if no issues
     }
 
-    const formattedData = mainItems.map((item) => ({
+    const formDetails = mainItems.map((item) => ({
       inputType: item.inputType,
       type: item.type,
       name: item.name,
       showValue: item.showValue || "", // Preserve showValue
     }));
 
-    console.log(formattedData); // Log the formatted data
+    updateForm.mutate({ formDetails });
+  };
+
+  const getHintMessage = (type) => {
+    switch (type) {
+      case "text":
+        return "Hint: User will input text in this form.";
+      case "email":
+        return "Hint: User will input an email in this form.";
+      case "number":
+        return "Hint: User will input a number in this form.";
+      case "phone":
+        return "Hint: User will input a phone number in this form.";
+      case "date":
+        return "Hint: User will input a date in this form.";
+      case "rating":
+        return "Hint: User will give a rating in this form.";
+      case "buttons":
+        return "Hint: User will click buttons in this form.";
+      default:
+        return "Hint: User will input information in this form.";
+    }
   };
 
   return (
@@ -179,17 +203,14 @@ function WorkspaceTool() {
                 <img src={rating_input_icon} alt="Rating Input" />
                 <p>Rating</p>
               </div>
-              <div
-                className={styles.options}
-                onClick={() => addInput("buttons")}
-              >
-                <img src={button_input_icon} alt="Button Input" />
-                <p>Buttons</p>
-              </div>
             </div>
           </div>
         </aside>
         <div className={styles.mainSpace}>
+          <div className={styles.startDiv}>
+            <img src={flag} />
+            <p>Start</p>
+          </div>
           {mainItems.map((item, index) => (
             <div key={index} className={styles.itemContainer}>
               <span
@@ -199,18 +220,21 @@ function WorkspaceTool() {
                 <img src={delete_icon} alt="Delete" />
               </span>
               {item.inputType === "Bubble" && item.type === "text" && (
-                <div>
+                <div className={styles.inputs}>
                   <label>{item.name}</label>
                   <Controller
                     name={`bubbles[${index}].value`}
                     control={control}
                     render={({ field }) => (
                       <input
+                        placeholder="Add text here"
                         type="text"
                         {...field}
                         style={{
-                          borderColor: errors[index] ? "red" : "initial",
-                        }} // Add red border if there's an error
+                          border: errors[index]
+                            ? "1px solid rgba(245, 80, 80, 1)"
+                            : "initial", // Apply red border if there's an error
+                        }}
                         onChange={(e) => {
                           setMainItems((prev) =>
                             prev.map((mItem, mIndex) =>
@@ -234,30 +258,37 @@ function WorkspaceTool() {
                     )}
                   />
                   {errors[index] && (
-                    <p style={{ color: "red" }}>{errors[index]}</p> // Display error message
+                    <span style={{ color: "rgba(245, 80, 80, 1)" }}>
+                      {errors[index]}
+                    </span> // Display error message
                   )}
                 </div>
               )}
               {item.inputType === "Bubble" &&
                 ["image", "video", "gif"].includes(item.type) && (
-                  <div>
-                    <p>
-                      {item.name}:{" "}
+                  <div className={styles.inputs}>
+                    <label>{item.name}</label>
+                    <p
+                      onClick={() => handleFileChange(index)}
+                      style={{
+                        border: errors[index]
+                          ? "1px solid rgba(245, 80, 80, 1)"
+                          : "initial", // Apply red border if there's an error
+                      }}
+                      className={styles.plabel}
+                    >
                       {item.showValue ? "Link added" : "Click to add a link"}
                     </p>
-                    <button onClick={() => handleFileChange(index)}>
-                      {item.showValue
-                        ? "Change Link"
-                        : "Click here to add links"}
-                    </button>
                     {errors[index] && (
-                      <p style={{ color: "red" }}>{errors[index]}</p> // Display error message
+                      <span style={{ color: "rgba(245, 80, 80, 1)" }}>
+                        {errors[index]}
+                      </span> // Display error message
                     )}
                   </div>
                 )}
 
               {item.inputType === "Input" && (
-                <div>
+                <div className={styles.users_input}>
                   <label>{item.name}</label>
                   {[
                     "text",
@@ -268,7 +299,7 @@ function WorkspaceTool() {
                     "rating",
                     "buttons",
                   ].includes(item.type) ? (
-                    <p>{item.showValue}</p> // Just show the label and keep showValue empty
+                    <p>{getHintMessage(item.type)}</p> // Display dynamic hint message
                   ) : (
                     <Controller
                       name={`inputs[${index}].value`}

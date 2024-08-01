@@ -1,12 +1,11 @@
 .wrapper {
   display: flex;
   column-gap: 1rem;
-  align-items: center;
   justify-content: space-between;
 }
 
 .asideContainer {
-  height: 800px;
+  min-height: 800px;
   /* background-color: red; */
   margin: 1rem 2rem;
   width: 344px;
@@ -58,18 +57,116 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
   height: 100%;
   gap: 2rem;
+  overflow-y: scroll;
 }
+
+.startDiv {
+  width: 309px;
+  height: 60px;
+  top: 150px;
+  left: 744px;
+  gap: 0px;
+  background-color: rgba(24, 24, 27, 1);
+  border-radius: 16px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: var(--sans);
+  padding-left: 2rem;
+  column-gap: 0.2rem;
+}
+.startDiv img {
+  height: 21px;
+  width: 21px;
+}
+/* Inout Styles */
 
 .itemContainer {
   display: flex;
   align-items: center;
   justify-content: space-between; /* Adjust as necessary */
+  background-color: red;
+  position: relative;
+  min-height: 119px;
+  width: 315px;
+  background-color: rgba(24, 24, 27, 1);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.inputs label,
+.users_input label {
+  font-family: var(--sans);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 21px;
+  text-align: left;
+}
+.plabel {
+  color: rgba(132, 132, 132, 0.33) !important;
+  font-weight: 600;
+  font-family: var(--sans);
+}
+.inputs p {
+  background-color: rgba(31, 31, 35, 1);
+  height: 45px;
+  width: 283px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+.inputs input {
+  background-color: rgba(31, 31, 35, 1);
+  height: 45px;
+  width: 283px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding-left: 1rem;
+  font-family: var(--sans) !important;
+  color: white;
+  font-weight: 600;
 }
 
 .deleteIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
   cursor: pointer;
   margin-right: 10px; /* Space from the item */
+  background-color: rgba(68, 68, 68, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  height: 33px;
+  width: 33px;
+}
+
+.users_input {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+.users_input p {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(85, 85, 85, 1);
 }

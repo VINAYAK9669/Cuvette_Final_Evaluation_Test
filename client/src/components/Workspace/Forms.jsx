@@ -12,7 +12,7 @@ import { setSelectedFolder } from "../../configuration/authSlice";
 
 function Forms() {
   const dispatch = useDispatch();
-  const { deleteFormById, formsWithUserId } = useAuthentication();
+  const { deleteFormById, formsWithUserId, createForm } = useAuthentication();
   const [selectedFormId, setSelectedFormId] = useState(null);
   const navigate = useNavigate();
   const { userID } = useParams();
@@ -37,12 +37,17 @@ function Forms() {
   };
 
   function handleCreateTypeBot() {
-    console.log("clicked");
+    createForm.mutate({
+      userId: userID,
+      folderId: selectedFolder ? selectedFolder : null,
+    });
+  }
 
+  function handleOpenForm(data) {
     navigate(
       `/dashboard/${userID}/workspacetool/${
         selectedFolder ? selectedFolder + "/" : ""
-      }flow`
+      }flow/${data._id}`
     );
   }
 
@@ -58,7 +63,11 @@ function Forms() {
         <p>Create a typebot</p>
       </div>
       {formsWithUserId.data?.data?.map((form) => (
-        <div className={styles.forms} key={form._id}>
+        <div
+          className={styles.forms}
+          key={form._id}
+          onClick={() => handleOpenForm(form)}
+        >
           <div className={styles.form_img}>
             <img src={delete_icon} onClick={() => handleOpenModal(form._id)} />
           </div>

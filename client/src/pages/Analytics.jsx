@@ -1,5 +1,11 @@
+import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
+
 function Analytics() {
-  return <div>This is a Analytics page</div>;
+  return (
+    <div>
+      <NavWorkSpaceTool />
+    </div>
+  );
 }
 
 export default Analytics;

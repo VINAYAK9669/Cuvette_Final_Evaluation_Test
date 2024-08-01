@@ -10,16 +10,14 @@ import {
   getFolderByUserIdURL,
   getFolderbyIdURL,
   deleteFolderByIdURL,
-  createSubFoldersURL,
-  getFormWithoutFolderIdURL,
   deleteFormByIdURL,
-  getFormsByUserIdURL,
 } from "../data/apiURL";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 // * This Custom hook which involve the Logic to send the request to the server and return the response
 function useApiFun() {
-  const { selectedFolder } = useSelector((state) => state.auth);
+  const { formId } = useParams();
   // TODO: ========= User Register Function
   const addNewUser = async (newUser) => {
     try {
@@ -166,7 +164,7 @@ function useApiFun() {
     }
   };
 
-  // TODO
+  // TODO: Create a form with or without forlderId
   const createFormFun = async (formData) => {
     try {
       const token = localStorage.getItem("token");
@@ -186,6 +184,27 @@ function useApiFun() {
     }
   };
 
+  // TODO: Update a form by formId function
+  const updateFormByIdFun = async (updatedData) => {
+    console.log(updatedData);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:3000/formapi/form/update/${formId}`,
+        updatedData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error("Error updating form:", error);
+      throw error;
+    }
+  };
   return {
     addNewUser,
     loginUser,
@@ -197,6 +216,7 @@ function useApiFun() {
     deleteFromByIdFun,
     getFormWithFolderIdFun,
     createFormFun,
+    updateFormByIdFun,
   };
 }
 

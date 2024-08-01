@@ -4,7 +4,7 @@ import { closeIcon } from "../../data/fileImports";
 import styles from "./NavWorkSpaceTool.module.css";
 
 function NavWorkSpaceTool({ onSave }) {
-  const { userID, folderId } = useParams();
+  const { userID, folderId, formId } = useParams();
   function hadndleSave() {
     onSave();
   }
@@ -19,7 +19,7 @@ function NavWorkSpaceTool({ onSave }) {
         <NavLink
           to={`/dashboard/${userID}/workspacetool/${
             folderId ? folderId + "/" : ""
-          }flow`}
+          }flow/${formId ? formId : ""}`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }
@@ -30,7 +30,7 @@ function NavWorkSpaceTool({ onSave }) {
         <NavLink
           to={`/dashboard/${userID}/workspacetool/${
             folderId ? folderId + "/" : ""
-          }theme`}
+          }theme/${formId ? formId : ""}`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }
@@ -41,7 +41,7 @@ function NavWorkSpaceTool({ onSave }) {
         <NavLink
           to={`/dashboard/${userID}/workspacetool/${
             folderId ? folderId + "/" : ""
-          }response`}
+          }response/${formId ? formId : ""}`}
           className={({ isActive }) =>
             `${styles.path} ${isActive ? styles.active_div : ""}`
           }

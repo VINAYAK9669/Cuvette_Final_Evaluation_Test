@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { logout } from "../configuration/authSlice";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import styles from "./DashboardLayout.module.css";
-import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ function Dashboard() {
           </div>
         </div>
       )}
-      {isWorkSpaceTool && <NavWorkSpaceTool />}
       <div className="size-full flex flex-col">
         <Outlet />
       </div>

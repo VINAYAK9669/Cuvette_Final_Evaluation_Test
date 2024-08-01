@@ -32,10 +32,10 @@ function useAuthentication() {
     createFolderFun,
     getFoldersbyUserIdFun,
     deleteFolderByIdFun,
-    getFormWithoutFolderIdFun,
     deleteFromByIdFun,
     getFormWithFolderIdFun,
     createFormFun,
+    updateFormByIdFun,
   } = useApiFun();
 
   // TODO:  ================== Functions Logic ===================
@@ -187,11 +187,22 @@ function useAuthentication() {
     },
   });
 
+  // TODO: Create a form with or without forlderId
   const createForm = useMutation({
     mutationKey: ["createForm"],
     mutationFn: createFormFun,
     onSuccess: (data) => {
-      toast.success("Form created successfully");
+      if (data.status === 201) {
+        navigate(
+          `/dashboard/${userID}/workspacetool/${
+            selectedFolder ? selectedFolder + "/" : ""
+          }flow/${data?.data._id}`
+        );
+        toast.success("Draft Form has been created");
+      } else {
+        toast.error("Unable to create a Form");
+      }
+
       queryClient.invalidateQueries("forms");
     },
     onError: (error) => {
@@ -199,6 +210,32 @@ function useAuthentication() {
       console.error(error);
     },
   });
+
+  // TODO:Update a Form Id
+
+  const updateForm = useMutation({
+    mutationKey: ["updateForm"],
+    mutationFn: updateFormByIdFun,
+    onSuccess: (data) => {
+      if (data.status === 200) {
+        navigate(
+          `/dashboard/${userID}/workspacetool/${
+            selectedFolder ? selectedFolder + "/" : ""
+          }flow/${data?.data._id}`
+        );
+        toast.success("Draft Form has been updated");
+      } else {
+        toast.error("Unable to update a Form");
+      }
+
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
+      toast.error("Failed to create form");
+      console.error(error);
+    },
+  });
+
   return {
     addUser,
     userLogin,
@@ -208,6 +245,7 @@ function useAuthentication() {
     deleteFormById,
     formsWithUserId,
     createForm,
+    updateForm,
   };
 }
 
