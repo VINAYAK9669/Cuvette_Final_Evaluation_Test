@@ -1,9 +1,13 @@
+/* eslint-disable react/prop-types */
 import { NavLink, useParams } from "react-router-dom";
 import { closeIcon } from "../../data/fileImports";
 import styles from "./NavWorkSpaceTool.module.css";
 
-function NavWorkSpaceTool() {
+function NavWorkSpaceTool({ onSave }) {
   const { userID, folderId } = useParams();
+  function hadndleSave() {
+    onSave();
+  }
   return (
     <div
       className={`flex justify-between items-center w-screen ${styles.container}`}
@@ -47,7 +51,9 @@ function NavWorkSpaceTool() {
       </div>
       <div className={`flex items-center ${styles.buttons}`}>
         <button>Share</button>
-        <button className={styles.saveButton}>Save</button>
+        <button className={styles.saveButton} onClick={hadndleSave}>
+          Save
+        </button>
         <img src={closeIcon} />
       </div>
     </div>

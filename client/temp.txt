@@ -53,3 +53,148 @@
   --line-height-custom-1: 26.2px;
   --line-height-custom-2: 27.24px;
 }
+
+-------------------------------------------------------------------------------------------------------------------
+
+import {
+  button_input_icon,
+  date_input_icon,
+  email_input_icon,
+  gif_icon,
+  image_icon,
+  number_input_icon,
+  phone_input_icon,
+  rating_input_icon,
+  text_icon,
+  text_input_icon,
+  video_icon,
+} from "../data/fileImports";
+import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
+
+import styles from "./WorkspaceTool.module.css";
+
+function WorkspaceTool() {
+  return (
+    <>
+      <NavWorkSpaceTool />
+      <div className={styles.wrapper}>
+        <aside className={styles.asideContainer}>
+          <div className={`flex flex-col`}>
+            <h1 className={styles.header}>Bubbles</h1>
+            <div className={styles.cards}>
+              <div className={styles.options}>
+                <img src={text_icon} />
+                <p>Text</p>
+              </div>
+              <div className={styles.options}>
+                <img src={image_icon} />
+                <p>Image</p>
+              </div>
+              <div className={styles.options}>
+                <img src={video_icon} />
+                <p>Video</p>
+              </div>
+              <div className={styles.options}>
+                <img src={gif_icon} />
+                <p>GIF</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h1 className={styles.header}>Inputs</h1>
+            <div className={styles.cards}>
+              <div className={styles.options}>
+                <img src={text_input_icon} />
+                <p>text</p>
+              </div>
+              <div className={styles.options}>
+                <img src={number_input_icon} />
+                <p>Number</p>
+              </div>
+              <div className={styles.options}>
+                <img src={email_input_icon} />
+                <p>Email</p>
+              </div>
+              <div className={styles.options}>
+                <img src={phone_input_icon} />
+                <p>Phone</p>
+              </div>
+              <div className={styles.options}>
+                <img src={date_input_icon} />
+                <p>Date</p>
+              </div>
+              <div className={styles.options}>
+                <img src={rating_input_icon} />
+                <p>Rating</p>
+              </div>
+              <div className={styles.options}>
+                <img src={button_input_icon} />
+                <p>Buttons</p>
+              </div>
+            </div>
+          </div>
+        </aside>
+        <div className={styles.mainSpace}>
+          <p>Hi</p>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default WorkspaceTool;
+
+
+
+Go with this code and observer there are two main fileds in the side bar
+1] Bubbles
+2] Inputs
+
+A) When I click on any bubble the div need to appear in the main mainSpace
+Example:  
+1] Let's say I clicked on the Text which type is `input` then the `div` need to appear in the main mainSpace
+which will ask the user to add some text in the input field,
+2] Let's say user Clicks on the `image` the type is `Bubble` then  the `div` need to appear in the main mainSpace
+asking a user to `click to add a link` when user click on this button then need to open files from local statorage and if user clicks on any image then need to convert it into text, use any method to convert image/video or anuthing in to links.
+
+
+Note: All divs need to appear in the main space,
+
+ex: if user clicked on Bubbles - text, video, GIF 
+or Inputs -  Email, Number or anything I need to see all the divs in the main space one below the other, 
+
+Here the <NavWorkSpaceTool /> do have button called save once I click on this I need to console the array of objects, as I want to send it to the backend so plese follow the below format
+
+// Define formDetails schema
+const formDetailSchema = new Schema({
+  inputType: {
+    type: String,
+    enum: ["Bubbles", "inputs"],
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: [
+      "text",
+      "number",
+      "email",
+      "date",
+      "buttons",
+      "phone",
+      "rating",
+      "gif",
+      "video",
+      "image",
+    ],
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  showValue: {
+    type: String,
+    default: "",
+  },
+});
+

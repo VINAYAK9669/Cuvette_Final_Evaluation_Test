@@ -55,8 +55,21 @@
 .mainSpace {
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: start;
-  height: 100%;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
   margin-top: 10rem;
+  height: 100%;
+  gap: 2rem;
+}
+
+.itemContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Adjust as necessary */
+}
+
+.deleteIcon {
+  cursor: pointer;
+  margin-right: 10px; /* Space from the item */
 }
