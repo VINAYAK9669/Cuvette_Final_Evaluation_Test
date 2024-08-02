@@ -7,13 +7,13 @@ const errorHandler = require("./middlewares/errorHandler");
 
 // TODO: 5] Import Custom Module [Routes]
 const userRoute = require("./routes/userRoute");
-const folderRoutes = require("./routes/folderRoute");
+const folderRoutes = require("./routes/FolderRoute");
 const formRoutes = require("./routes/formRoute");
 const userReponse = require("./routes/userResponse");
 
 // TODO: 2] Create a instance of express and declare port
 const app = express();
-const PORT = 10000;
+const PORT = 3000;
 
 // Enable CORS
 app.use(cors());
@@ -42,7 +42,11 @@ mongoose
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
+app.use("/", (req, res) => {
+  res.json({
+    message: "Working Fine",
+  });
+});
 // TODO: 6] Use the defined routes
 app.use("/user", userRoute);
 app.use("/api", folderRoutes);

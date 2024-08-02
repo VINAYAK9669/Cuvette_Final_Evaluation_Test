@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import ValidateCurToken from "../hooks/useValidateToken";
+
 // TODO: Define the inital states required for authentication
 
 const initialState = {
-  isAuthenticated: await ValidateCurToken(localStorage.getItem("token")),
+  isAuthenticated: false,
   loginUserStatus: true,
   loggedUser: JSON.parse(localStorage.getItem("loggedUser")),
   currentUser: null,
