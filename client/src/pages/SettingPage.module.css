@@ -1,0 +1,62 @@
+.container {
+  width: Hug (493.39px) px;
+  gap: 44px;
+  opacity: 0px;
+  row-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 2rem;
+}
+
+.input_container {
+  height: 55.13px;
+  width: 100%;
+  background-color: transparent;
+  width: 493px;
+  row-gap: 1rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 13px;
+  padding-left: 0.5rem;
+}
+
+.input_container input {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: input;
+  font-family: var(--sans);
+  font-size: 19.29px;
+  font-weight: 400;
+  line-height: 26.28px;
+  text-align: left;
+  color: white;
+}
+.header {
+  font-family: var(--sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 29.96px;
+  text-align: left;
+  margin-bottom: 5rem;
+}
+
+button {
+  height: 55px;
+  width: 100%;
+  border-radius: 55px;
+  background-color: #1a5fff;
+  font-family: var(--sans);
+  font-size: 19.29px;
+  font-weight: 400;
+  line-height: 26.28px;
+  text-align: center;
+  border: none;
+  color: white;
+}
+
+.errorInput {
+  border: 2px solid red; /* Add a red border */
+}

@@ -6,7 +6,7 @@ function FormBots() {
       <div className={styles.wrapper}>
         <h1>
           Improve conversion and user engagement <br />
-          with FormBots{" "}
+          with FormBots
         </h1>
         <button className={`${styles.button}`}>Create a FormBot</button>
         <p>

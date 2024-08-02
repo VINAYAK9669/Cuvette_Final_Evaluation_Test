@@ -47,6 +47,10 @@ const formSchema = new mongoose.Schema({
     type: String,
     default: "Untitled Form",
   },
+  theme: {
+    type: String,
+    default: "#FFFFFF",
+  },
   sharedLink: {
     type: String,
     unique: true,

@@ -264,23 +264,35 @@ const SharedFormPage = () => {
   };
 
   return (
-    <div className={styles.chatContainer}>
-      {formDetails
-        .slice(0, currentIndex)
-        .map((detail) =>
-          detail.inputType === "Bubble"
-            ? renderBubble(detail)
-            : renderInput(detail)
+    <div
+      className={styles.chatContainer}
+      style={
+        getSharedLinkUserDetails.data?.data?.sharedLinkDetails
+          ? {
+              backgroundColor:
+                getSharedLinkUserDetails.data?.data?.sharedLinkDetails.theme,
+            }
+          : { backgroundColor: "#FFFFFF" }
+      }
+    >
+      <div className={styles.chatWrapper}>
+        {formDetails
+          .slice(0, currentIndex)
+          .map((detail) =>
+            detail.inputType === "Bubble"
+              ? renderBubble(detail)
+              : renderInput(detail)
+          )}
+        {currentIndex < formDetails.length && (
+          <>
+            {formDetails[currentIndex].inputType === "Bubble" &&
+              renderBubble(formDetails[currentIndex])}
+            {waitingForInput &&
+              formDetails[currentIndex].inputType === "Input" &&
+              renderInput(formDetails[currentIndex])}
+          </>
         )}
-      {currentIndex < formDetails.length && (
-        <>
-          {formDetails[currentIndex].inputType === "Bubble" &&
-            renderBubble(formDetails[currentIndex])}
-          {waitingForInput &&
-            formDetails[currentIndex].inputType === "Input" &&
-            renderInput(formDetails[currentIndex])}
-        </>
-      )}
+      </div>
     </div>
   );
 };

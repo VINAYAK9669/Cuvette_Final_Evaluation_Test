@@ -175,7 +175,7 @@ function WorkSpace() {
             </div>
           </ModalContent>
         ) : (
-          <ModalContent ref={formsRef}>
+          <ModalContent>
             <div className="modalContent">
               <h1>Are you sure you want to delete this Folder?</h1>
               <div className="buttons">

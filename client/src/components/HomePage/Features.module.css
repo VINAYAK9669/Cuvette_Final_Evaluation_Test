@@ -24,16 +24,17 @@
   text-align: center;
   justify-content: center;
 }
-.feature h1 {
+.feature h2 {
   font-size: var(--font-size-sm);
   font-family: var(--sans);
   font-weight: var(--font-weight-semibold);
   margin-top: 0.5rem;
 }
-.feature p {
+.feature span {
   font-family: var(--sans);
   color: rgba(113, 128, 150, 1);
   font-size: var(--font-size-xs);
+  font-weight: 400;
 }
 .middleIcon {
   position: absolute;
@@ -50,8 +51,8 @@
   font-family: var(--outfit);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center !important;
+  justify-content: center !important;
   text-align: center;
   margin-bottom: 6rem;
 }
@@ -64,6 +65,7 @@
   font-size: var(--font-size-md);
   line-height: var(--line-height-xl);
   color: rgba(113, 128, 150, 1);
+  margin-top: -3rem;
 }
 .gallery {
   width: 1137px;

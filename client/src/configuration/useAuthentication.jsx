@@ -41,6 +41,8 @@ function useAuthentication() {
     getSharedLinkUserDetailsFun,
     addNewUserToLinkDeatilsFun,
     addUserInputsToSharedLinkFun,
+    addThemeToformFun,
+    updateUserDeatilsFun,
   } = useApiFun();
 
   // TODO:  ================== Functions Logic ===================
@@ -295,6 +297,43 @@ function useAuthentication() {
     },
   });
 
+  // TODO:Create a New user in SharedLink
+  const addThemeToform = useMutation({
+    mutationKey: ["newTheme"],
+    mutationFn: addThemeToformFun,
+    onSuccess: (data) => {
+      toast.success("theme Added");
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
+      toast.error("something went wrong");
+      throw error("Failed to create form");
+    },
+  });
+  const updateUserDetails = useMutation({
+    mutationKey: ["newUserDetails"],
+    mutationFn: updateUserDeatilsFun,
+    onSuccess: (data) => {
+      console.log(data);
+      if (data.status === 200) {
+        toast.success("Details Updated");
+      } else {
+        toast.error("something went wrong");
+      }
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
+      console.log(error.response.status);
+      if (error.response.status === 400) {
+        toast.error("Email is already registered");
+      } else {
+        toast.error("something went wrong");
+      }
+
+      throw error("Failed to create form");
+    },
+  });
+
   return {
     addUser,
     userLogin,
@@ -310,6 +349,8 @@ function useAuthentication() {
     getSharedLinkUserDetails,
     addUserInputsToSharedLink,
     addNewuserToSharedlink,
+    addThemeToform,
+    updateUserDetails,
   };
 }
 

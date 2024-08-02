@@ -6,12 +6,20 @@ import { v4 as uuidv4 } from "uuid";
 import useAuthentication from "../../configuration/useAuthentication";
 import toast from "react-hot-toast";
 
-function NavWorkSpaceTool({ onSave, setFormName, formName }) {
+function NavWorkSpaceTool({ onSave, setFormName, formName, handleSetTheme }) {
   const { userID, folderId, formId } = useParams();
   const { updateForm, getFormDetails, addDetailsToNewLink } =
     useAuthentication();
   function hadndleSave() {
-    onSave();
+    // Check if the URL contains 'flow'
+    if (location.pathname.includes("flow")) {
+      onSave(); // Call onSave if 'flow' is present in the URL
+    }
+
+    // Check if the URL contains 'theme'
+    if (location.pathname.includes("theme")) {
+      handleSetTheme(); // Call handleSetTheme if 'theme' is present in the URL
+    }
   }
   function handleSharedLink() {
     console.log(getFormDetails.data);
@@ -24,7 +32,9 @@ function NavWorkSpaceTool({ onSave, setFormName, formName }) {
         sharedLink: sharedLink,
         formDetails: getFormDetails.data?.data?.formDetails,
         totalInputs: getFormDetails.data?.data?.formDetails.length,
+        theme: getFormDetails.data?.data?.theme,
       });
+
       navigator.clipboard.writeText(sharedLink);
       toast.success("Shared link copied to clipboard");
     } catch (error) {

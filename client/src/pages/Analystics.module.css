@@ -1,0 +1,69 @@
+.tableContainer {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  margin: 20px 0;
+  width: 1440px;
+  overflow-x: scroll;
+  margin: 0 auto;
+}
+
+.scrollableTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent; /* Make the background transparent */
+}
+
+.scrollableTable th,
+.scrollableTable td {
+  border: 1px solid #ddd; /* Gray border color */
+  padding: 8px;
+  background: transparent; /* Make the background transparent */
+}
+
+.scrollableTable th {
+  background: transparent; /* Make the background transparent */
+  position: sticky;
+  top: 0; /* Stick the header to the top */
+  z-index: 1;
+}
+
+.scrollableTable th,
+.scrollableTable td {
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.statsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px; /* Adjust spacing between stats and table */
+}
+
+.statBox {
+  background-color: #323232; /* Light background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  text-align: center;
+  width: 30%; /* Adjust width as needed */
+  margin-top: 3rem;
+  width: 195.75px;
+}
+
+.tableContainer {
+  overflow-x: auto; /* Horizontal scrolling for the table */
+}
+
+.scrollableTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: #e0e0e0; /* Header background color */
+  padding: 10px;
+}
+
+.scrollableTable td,
+.scrollableTable th {
+  padding: 10px;
+  border: 1px solid #ccc; /* Border for table cells */
+}

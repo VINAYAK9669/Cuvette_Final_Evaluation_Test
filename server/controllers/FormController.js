@@ -189,6 +189,31 @@ const FormController = {
       res.status(500).json({ error: error.message });
     }
   },
+  // TODO:Function to update the theme of a form by its ID
+  updateFormTheme: async (req, res) => {
+    try {
+      const { formId } = req.params;
+      const { theme } = req.body;
+
+      // Finding the form by its ID and updating the theme
+      const updatedForm = await Form.findByIdAndUpdate(
+        formId,
+        { theme },
+        { new: true }
+      );
+
+      if (!updatedForm) {
+        // Sending a 404 response if the form is not found
+        return res.status(404).json({ error: "Form not found" });
+      }
+
+      // Sending the updated form as response
+      res.status(200).json(updatedForm);
+    } catch (error) {
+      // Sending error response if something goes wrong
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 module.exports = FormController;

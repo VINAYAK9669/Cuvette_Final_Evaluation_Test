@@ -1,7 +1,7 @@
 const UserAction = require("../model/UserAction");
 
 const addNewSharedLink = async (req, res) => {
-  const { userId, sharedLink, totalInputs, formDetails } = req.body;
+  const { userId, sharedLink, totalInputs, formDetails, theme } = req.body;
 
   try {
     // Check if the shared link already exists
@@ -24,6 +24,7 @@ const addNewSharedLink = async (req, res) => {
       totalInputs,
       formFillerData: [],
       formDetails,
+      theme,
     });
     await userAction.save();
 

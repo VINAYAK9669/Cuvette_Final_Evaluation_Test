@@ -33,5 +33,7 @@ router.get(
   "/form/withoutfolderId/:userId",
   FormController.getFormsWithoutFolder
 );
+// Route to update the theme of a form
+router.put("/:formId/theme", FormController.updateFormTheme);
 
 module.exports = router;

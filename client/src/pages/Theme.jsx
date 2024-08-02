@@ -13,14 +13,25 @@ import {
 } from "../data/fileImports";
 import styles from "./Theme.module.css";
 import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
+import useAuthentication from "../configuration/useAuthentication";
 
 function Theme() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [backgroundColor, setBackgroundColor] = useState("");
+  const { addThemeToform } = useAuthentication();
+
+  // Function to log the selected theme color
+  const logSelectedTheme = (color) => {
+    console.log("Selected Theme Color:", color);
+  };
+  function handleSetTheme() {
+    addThemeToform.mutate({ theme: backgroundColor });
+  }
 
   const handleImageClick = (image, color) => {
     setSelectedImage(image);
     setBackgroundColor(color);
+    logSelectedTheme(color); // Log the selected color
   };
 
   const getImageStyle = (image) => {
@@ -32,7 +43,7 @@ function Theme() {
 
   return (
     <>
-      <NavWorkSpaceTool />
+      <NavWorkSpaceTool handleSetTheme={handleSetTheme} />
       <div className={styles.wrapper}>
         <aside className={styles.asideContainer}>
           <div className={styles.cards}>

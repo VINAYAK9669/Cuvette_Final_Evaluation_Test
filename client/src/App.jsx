@@ -11,14 +11,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import DashboardLayout from "./pages/DashboardLayout";
 import toast, { Toaster } from "react-hot-toast";
-
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "./configuration/authSlice";
 import SettingPage from "./pages/SettingPage";
 import WorkSpace from "./pages/WorkSpace";
 import { useEffect } from "react";
 import WorkspaceTool from "./pages/WorkspaceTool";
-import NavWorkSpaceTool from "./components/Workspace/NavWorkSpaceTool";
 import Theme from "./pages/Theme";
 import Analytics from "./pages/Analytics";
 import SharedFormPage from "./pages/SharedFormPage";
@@ -61,6 +59,7 @@ function App() {
                 path="workspacetool/:folderId?/response/:formId?/"
                 element={<Analytics />}
               />
+              <Route path="settings" element={<SettingPage />} />
             </Route>
             <Route path="*" element={<p>Page Not Found</p>} />
           </Routes>

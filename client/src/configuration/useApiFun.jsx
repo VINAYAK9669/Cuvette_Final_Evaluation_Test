@@ -14,10 +14,11 @@ import {
 } from "../data/apiURL";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 // * This Custom hook which involve the Logic to send the request to the server and return the response
 function useApiFun() {
-  const { formId } = useParams();
+  const { formId, userID } = useParams();
 
   // TODO: ========= User Register Function
   const addNewUser = async (newUser) => {
@@ -303,6 +304,56 @@ function useApiFun() {
       throw error;
     }
   };
+
+  // TODO: add theme
+  const addThemeToformFun = async (theme) => {
+    try {
+      console.log(theme);
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:3000/formapi/${formId}/theme`,
+        theme,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Error updating form:", error);
+      throw error;
+    }
+  };
+
+  // TODO: Update a form by formId function
+  const updateUserDeatilsFun = async ({
+    oldPassword = "",
+    newPassword = "",
+    name = "",
+    email = "",
+  }) => {
+    console.log(oldPassword, newPassword, name, email);
+    const userId = userID;
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:3000/user/update/${userId}`,
+        { oldPassword, newPassword, name, email },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Error updating form:", error);
+      throw error;
+    }
+  };
   return {
     addNewUser,
     loginUser,
@@ -320,6 +371,8 @@ function useApiFun() {
     getSharedLinkUserDetailsFun,
     addUserInputsToSharedLinkFun,
     addNewUserToLinkDeatilsFun,
+    addThemeToformFun,
+    updateUserDeatilsFun,
   };
 }
 

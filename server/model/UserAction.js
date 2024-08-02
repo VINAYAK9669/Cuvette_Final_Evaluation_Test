@@ -16,6 +16,10 @@ const formDetailsSchema = new Schema({
     required: true,
     default: false,
   },
+  creationDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 // Schema for user responses
@@ -38,6 +42,7 @@ const sharedLinkDetailsSchema = new Schema({
     type: Number,
     required: true,
   },
+  theme: { type: String, required: true, default: "#FFFFFF" },
   formFillerData: [userResponseSchema],
   formDetails: [
     {

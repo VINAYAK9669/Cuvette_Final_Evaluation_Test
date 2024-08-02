@@ -72,8 +72,8 @@ function Features() {
               <img src={feature.imgUrl} />
             </div>
             <div className={styles.feature}>
-              <h1>{feature.header}</h1>
-              <p>{feature.para}</p>
+              <h2>{feature.header}</h2>
+              <span>{feature.para}</span>
             </div>
           </div>
         ))}

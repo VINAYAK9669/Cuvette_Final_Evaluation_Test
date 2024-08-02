@@ -43,6 +43,9 @@
   font-weight: var(--font-weight-semibold);
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 1);
+  text-decoration: none;
+  font-family: var(--sans);
+  cursor: pointer;
 }
 
 .img_section {
