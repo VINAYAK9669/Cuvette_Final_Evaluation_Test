@@ -227,7 +227,6 @@ function useApiFun() {
 
   //* Add new user link to the UserDetails
   const addLinkDeatilsFun = async (sharedLinkData) => {
-    console.log(sharedLinkData);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
@@ -257,7 +256,6 @@ function useApiFun() {
           params: { sharedLink },
         }
       );
-      console.log(response);
       return response;
     } catch (error) {
       console.error("Error fetching form details:", error);
@@ -280,7 +278,6 @@ function useApiFun() {
         }
       );
 
-      console.log("Response:", response.data);
       return response.data;
     } catch (error) {
       console.error("Error adding user form details:", error);
@@ -290,7 +287,6 @@ function useApiFun() {
 
   // TODO:Add a new user to the sharedLink
   const addNewUserToLinkDeatilsFun = async (sharedLinkData) => {
-    console.log(sharedLinkData);
     try {
       const response = await axios.post(
         `http://localhost:3000/response/add-new-user-to-shared-link/`,

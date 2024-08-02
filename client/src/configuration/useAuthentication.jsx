@@ -259,7 +259,7 @@ function useAuthentication() {
       queryClient.invalidateQueries("forms");
     },
     onError: (error) => {
-      toast.error("Failed to create form");
+      throw error("Failed to create form");
     },
   });
 
@@ -279,7 +279,6 @@ function useAuthentication() {
       queryClient.invalidateQueries("forms");
     },
     onError: (error) => {
-      toast.error(error.response.data.message);
       throw error("Failed to create form");
     },
   });
@@ -290,10 +289,8 @@ function useAuthentication() {
     mutationFn: addNewUserToLinkDeatilsFun,
     onSuccess: (data) => {
       queryClient.invalidateQueries("forms");
-      toast.success("user Has Addded");
     },
     onError: (error) => {
-      toast.success(error.response.data.message);
       throw error("Failed to create form");
     },
   });

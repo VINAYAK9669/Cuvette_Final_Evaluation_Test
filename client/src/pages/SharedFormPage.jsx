@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import useAuthentication from "../configuration/useAuthentication";
+import styles from "./SharedFormPage.module.css";
+import { icon } from "../data/fileImports";
+import sendIcon from "/assets/icons/send.svg";
 
 const SharedFormPage = () => {
   const { getSharedLinkUserDetails, addNewuserToSharedlink } =
@@ -12,6 +15,8 @@ const SharedFormPage = () => {
   const [waitingForInput, setWaitingForInput] = useState(false);
   const [randomId, setRandomId] = useState("");
   const [sharedLink, setSharedLink] = useState("");
+  const [rating, setRating] = useState(0);
+  const [submittedFields, setSubmittedFields] = useState({});
 
   const { addUserInputsToSharedLink } = useAuthentication();
 
@@ -23,7 +28,10 @@ const SharedFormPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
+
+  const latestElementRef = useRef(null);
 
   useEffect(() => {
     // Generate a random ID when the component mounts
@@ -51,7 +59,6 @@ const SharedFormPage = () => {
       return () => clearTimeout(timer);
     }
   }, [currentIndex, formDetails]);
-  console.log(randomId);
 
   useEffect(() => {
     if (randomId)
@@ -61,6 +68,12 @@ const SharedFormPage = () => {
       });
   }, [randomId]);
 
+  useEffect(() => {
+    if (latestElementRef.current) {
+      latestElementRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentIndex, waitingForInput]);
+
   const handleUserInput = async (data) => {
     const currentDetail = formDetails[currentIndex];
 
@@ -69,23 +82,24 @@ const SharedFormPage = () => {
       randomId,
       formInput: {
         name: currentDetail.name,
-        userResponse: data[currentDetail.name],
+        userResponse: data[currentDetail.name] || rating,
         completionStatus: true,
       },
     });
 
-    console.log(randomId);
-
-    // Example API call
-    // await sendDataToBackend(inputData); // Define sendDataToBackend to handle the API request
-
     setUserResponses((prev) => ({
       ...prev,
-      [currentDetail.name]: data[currentDetail.name],
+      [currentDetail.name]: data[currentDetail.name] || rating,
     }));
-    console.log(data);
+
+    setSubmittedFields((prev) => ({
+      ...prev,
+      [currentDetail.name]: true,
+    }));
+
     setWaitingForInput(false);
     setCurrentIndex(currentIndex + 1); // Move to the next item
+    setRating(0); // Reset rating after submission
   };
 
   const renderBubble = (detail) => {
@@ -118,44 +132,131 @@ const SharedFormPage = () => {
     }
 
     return (
-      <div key={detail._id} style={{ textAlign: "left", marginBottom: "10px" }}>
-        <div
-          style={{
-            backgroundColor: "#e0e0e0",
-            padding: "10px",
-            borderRadius: "5px",
-          }}
-        >
-          {content}
+      <div
+        key={detail._id}
+        className={styles.bubbles_container}
+        ref={
+          currentIndex === formDetails.indexOf(detail) ? latestElementRef : null
+        }
+      >
+        <div className={styles.icon}>
+          <img src={icon} alt="icon" />
         </div>
+        <div className={styles.bubbles}>{content}</div>
+      </div>
+    );
+  };
+
+  const renderRatingInput = (name) => {
+    const handleRatingClick = (value) => {
+      setRating(value);
+      setValue(name, value); // Register the value with react-hook-form
+    };
+
+    const isSubmitted = submittedFields[name];
+
+    return (
+      <div style={{ display: "flex", justifyContent: "center", gap: "5px" }}>
+        {[1, 2, 3, 4, 5].map((circle) => (
+          <div
+            key={circle}
+            onClick={() => !isSubmitted && handleRatingClick(circle)}
+            style={{
+              cursor: isSubmitted ? "default" : "pointer",
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: isSubmitted
+                ? circle <= userResponses[name]
+                  ? "blue"
+                  : "orange"
+                : circle <= rating
+                ? "gold"
+                : "gray",
+              color: "white",
+              fontWeight: "bold",
+            }}
+          >
+            {circle}
+          </div>
+        ))}
+        <input
+          type="hidden"
+          value={rating}
+          {...register(name, {
+            required: "This field is required",
+          })}
+        />
       </div>
     );
   };
 
   const renderInput = (detail) => {
+    const inputType = detail.type;
+
+    const getInputField = (inputType) => {
+      switch (inputType) {
+        case "text":
+          return "text";
+        case "date":
+          return "date";
+        case "email":
+          return "email";
+        case "number":
+          return "number";
+        case "phone":
+          return "tel";
+        default:
+          return "text";
+      }
+    };
+
+    const isSubmitted = submittedFields[detail.name];
+
     return (
       <div
         key={detail._id}
-        style={{ textAlign: "right", marginBottom: "10px" }}
+        className={styles.inputs}
+        ref={
+          currentIndex === formDetails.indexOf(detail) ? latestElementRef : null
+        }
       >
-        <form onSubmit={handleSubmit(handleUserInput)}>
-          <input
-            type={detail.type}
-            placeholder={detail.name}
-            {...register(detail.name, {
-              required: "This field is required",
-              pattern: detail.type === "email" && {
-                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                message: "Invalid email address",
-              },
-            })}
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-            }}
-          />
-          <button type="submit">Submit</button>
+        <form onSubmit={handleSubmit(handleUserInput)} className={styles.form}>
+          {inputType === "rating" ? (
+            renderRatingInput(detail.name)
+          ) : (
+            <input
+              type={getInputField(inputType)}
+              placeholder={detail.name}
+              {...register(detail.name, {
+                required: "This field is required",
+                pattern: inputType === "email" && {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "Invalid email address",
+                },
+              })}
+              style={
+                isSubmitted
+                  ? {
+                      background: "rgb(119, 119, 119)",
+                      color: "white",
+                      fontWeight: 700,
+                    }
+                  : { backgroundColor: "white", color: "black" }
+              }
+              disabled={isSubmitted}
+            />
+          )}
+          <button
+            type="submit"
+            disabled={isSubmitted}
+            style={isSubmitted ? { background: "gray" } : {}}
+          >
+            <img src={sendIcon} />
+          </button>
           {errors[detail.name] && <p>{errors[detail.name].message}</p>}
         </form>
       </div>
@@ -163,8 +264,7 @@ const SharedFormPage = () => {
   };
 
   return (
-    <div>
-      <h1>Chatbot</h1>
+    <div className={styles.chatContainer}>
       {formDetails
         .slice(0, currentIndex)
         .map((detail) =>
@@ -181,10 +281,6 @@ const SharedFormPage = () => {
             renderInput(formDetails[currentIndex])}
         </>
       )}
-      {currentIndex >= formDetails.length && (
-        <p>Thank you for your responses!</p>
-      )}
-      <pre>{JSON.stringify(userResponses, null, 2)}</pre>
     </div>
   );
 };
