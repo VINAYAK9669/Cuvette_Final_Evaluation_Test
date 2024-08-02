@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import flag from "/assets/Workspace/flag.svg";
 import {
@@ -20,11 +20,20 @@ import styles from "./WorkspaceTool.module.css";
 import useAuthentication from "../configuration/useAuthentication";
 
 function WorkspaceTool() {
+  const { getFormDetails } = useAuthentication();
   const { updateForm } = useAuthentication();
   const { control, handleSubmit, setValue } = useForm();
   const [mainItems, setMainItems] = useState([]);
   const [counts, setCounts] = useState({ Bubbles: {}, Inputs: {} });
   const [errors, setErrors] = useState({}); // State to track errors
+  const [formName, setFormName] = useState("");
+
+  useEffect(() => {
+    if (getFormDetails.data) {
+      setMainItems(getFormDetails.data?.data?.formDetails);
+      setFormName(getFormDetails.data?.data.formName);
+    }
+  }, [getFormDetails.data]);
 
   const incrementCount = (type, category) => {
     setCounts((prevCounts) => ({
@@ -58,7 +67,7 @@ function WorkspaceTool() {
         inputType: "Input",
         type,
         name: `${type.charAt(0).toUpperCase() + type.slice(1)} Input ${count}`,
-        showValue: "", // Default showValue to empty
+        showValue: "", 
       },
     ]);
   };
@@ -66,7 +75,7 @@ function WorkspaceTool() {
   const handleFileChange = (index) => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*,video/*"; // Accept images and videos
+    input.accept = "image/*,video/*"; 
     input.onchange = (event) => {
       const file = event.target.files[0];
       if (file) {
@@ -77,15 +86,15 @@ function WorkspaceTool() {
           setMainItems((prev) =>
             prev.map((mItem, mIndex) =>
               mIndex === index
-                ? { ...mItem, showValue: base64String } // Show base64 string
+                ? { ...mItem, showValue: base64String } 
                 : mItem
             )
           );
-          setValue(`bubbles[${index}].value`, base64String); // Save the base64 string in the form data
+          setValue(`bubbles[${index}].value`, base64String); 
         };
       }
     };
-    input.click(); // Trigger the click to open file dialog
+    input.click(); 
   };
 
   const handleDelete = (index) => {
@@ -96,25 +105,24 @@ function WorkspaceTool() {
     const newErrors = {};
     mainItems.forEach((item, index) => {
       if (item.inputType === "Bubble" && item.showValue === "") {
-        newErrors[index] = "This field is required"; // Set error message
+        newErrors[index] = "This field is required"; 
       }
     });
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors); // Update error state
-      return; // Prevent saving if there are errors
+      setErrors(newErrors); 
+      return; 
     } else {
-      setErrors({}); // Clear errors if no issues
+      setErrors({}); 
     }
 
     const formDetails = mainItems.map((item) => ({
       inputType: item.inputType,
       type: item.type,
       name: item.name,
-      showValue: item.showValue || "", // Preserve showValue
+      showValue: item.showValue || "", 
     }));
-
-    updateForm.mutate({ formDetails });
+    updateForm.mutate({ formName, formDetails });
   };
 
   const getHintMessage = (type) => {
@@ -140,7 +148,11 @@ function WorkspaceTool() {
 
   return (
     <>
-      <NavWorkSpaceTool onSave={handleSubmit(handleSave)} />
+      <NavWorkSpaceTool
+        onSave={handleSubmit(handleSave)}
+        setFormName={setFormName}
+        formName={formName}
+      />
       <div className={styles.wrapper}>
         <aside className={styles.asideContainer}>
           <div className={`flex flex-col`}>
@@ -229,6 +241,7 @@ function WorkspaceTool() {
                       <input
                         placeholder="Add text here"
                         type="text"
+                        defaultValue={item.showValue}
                         {...field}
                         style={{
                           border: errors[index]

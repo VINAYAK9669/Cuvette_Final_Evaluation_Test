@@ -63,15 +63,11 @@ function Forms() {
         <p>Create a typebot</p>
       </div>
       {formsWithUserId.data?.data?.map((form) => (
-        <div
-          className={styles.forms}
-          key={form._id}
-          onClick={() => handleOpenForm(form)}
-        >
+        <div className={styles.forms} key={form._id}>
           <div className={styles.form_img}>
             <img src={delete_icon} onClick={() => handleOpenModal(form._id)} />
           </div>
-          <p>{form.formName}</p>
+          <p onClick={() => handleOpenForm(form)}>{form.formName}</p>
         </div>
       ))}
       {selectedFormId && (

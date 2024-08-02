@@ -21,7 +21,7 @@ import { useEffect } from "react";
 function useAuthentication() {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  const { userID } = useParams();
+  const { userID, sharedLink } = useParams();
   const navigate = useNavigate();
   const { currentUser, selectedFolder } = useSelector((state) => state.auth);
 
@@ -36,6 +36,11 @@ function useAuthentication() {
     getFormWithFolderIdFun,
     createFormFun,
     updateFormByIdFun,
+    getFormDetailsById,
+    addLinkDeatilsFun,
+    getSharedLinkUserDetailsFun,
+    addNewUserToLinkDeatilsFun,
+    addUserInputsToSharedLinkFun,
   } = useApiFun();
 
   // TODO:  ================== Functions Logic ===================
@@ -136,6 +141,7 @@ function useAuthentication() {
     mutationFn: createFolderFun,
     onSuccess: handlecreateFolderLogic,
   });
+
   // TODO: 4] Fecth all the folders by userId
   const fetchAllFolders = useMutation({
     mutationKey: ["userFolders"],
@@ -156,7 +162,7 @@ function useAuthentication() {
         dispatch(onCloseModal());
         toast.success("Folder Deleted");
       } else {
-        console.log("Something Went Wrong");
+        toast.error("Something Went Wrong");
       }
     },
   });
@@ -223,7 +229,7 @@ function useAuthentication() {
             selectedFolder ? selectedFolder + "/" : ""
           }flow/${data?.data._id}`
         );
-        toast.success("Draft Form has been updated");
+        toast.success("Form is updated");
       } else {
         toast.error("Unable to update a Form");
       }
@@ -231,8 +237,64 @@ function useAuthentication() {
       queryClient.invalidateQueries("forms");
     },
     onError: (error) => {
+      if (error.response.status === 413) {
+        toast.error("payload is too large");
+      }
+      console.log(error.response);
+    },
+  });
+
+  // TODO: Fetch all the form with folderId
+  const getFormDetails = useQuery({
+    queryKey: ["formsDetails"],
+    queryFn: getFormDetailsById,
+    enabled: !!localStorage.getItem("token"),
+  });
+
+  // TODO: Add Details to the New created link
+  const addDetailsToNewLink = useMutation({
+    mutationKey: ["updateForm"],
+    mutationFn: addLinkDeatilsFun,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
       toast.error("Failed to create form");
-      console.error(error);
+    },
+  });
+
+  // TODO: Fetch all the details of the sharedLink
+  const getSharedLinkUserDetails = useQuery({
+    queryKey: ["LinkDetails"],
+    queryFn: getSharedLinkUserDetailsFun,
+    staleTime: 600000,
+  });
+
+  // TODO: Add userInputs to the sharedLinks
+  const addUserInputsToSharedLink = useMutation({
+    mutationKey: ["formDeatils"],
+    mutationFn: addUserInputsToSharedLinkFun,
+    onSuccess: (data) => {
+      console.log(data);
+      queryClient.invalidateQueries("forms");
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+      throw error("Failed to create form");
+    },
+  });
+
+  // TODO:Create a New user in SharedLink
+  const addNewuserToSharedlink = useMutation({
+    mutationKey: ["newuserLinks"],
+    mutationFn: addNewUserToLinkDeatilsFun,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("forms");
+      toast.success("user Has Addded");
+    },
+    onError: (error) => {
+      toast.success(error.response.data.message);
+      throw error("Failed to create form");
     },
   });
 
@@ -246,6 +308,11 @@ function useAuthentication() {
     formsWithUserId,
     createForm,
     updateForm,
+    getFormDetails,
+    addDetailsToNewLink,
+    getSharedLinkUserDetails,
+    addUserInputsToSharedLink,
+    addNewuserToSharedlink,
   };
 }
 

@@ -103,12 +103,12 @@ const FormController = {
   updateForm: async (req, res) => {
     try {
       const { formId } = req.params;
-      const { formName, formDetails } = req.body;
+      const { formName, sharedLink, formDetails } = req.body;
 
       // Finding the form by its ID and updating its details
       const updatedForm = await Form.findByIdAndUpdate(
         formId,
-        { formName, formDetails },
+        { formName, sharedLink, formDetails },
         { new: true }
       );
 

@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 // * This Custom hook which involve the Logic to send the request to the server and return the response
 function useApiFun() {
   const { formId } = useParams();
+
   // TODO: ========= User Register Function
   const addNewUser = async (newUser) => {
     try {
@@ -186,7 +187,6 @@ function useApiFun() {
 
   // TODO: Update a form by formId function
   const updateFormByIdFun = async (updatedData) => {
-    console.log(updatedData);
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
@@ -198,10 +198,112 @@ function useApiFun() {
           },
         }
       );
-      console.log(response);
+
       return response;
     } catch (error) {
       console.error("Error updating form:", error);
+      throw error;
+    }
+  };
+
+  // TODO: Get the form details
+  const getFormDetailsById = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:3000/formapi/form/${formId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching form details:", error);
+      throw error;
+    }
+  };
+
+  //* Add new user link to the UserDetails
+  const addLinkDeatilsFun = async (sharedLinkData) => {
+    console.log(sharedLinkData);
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `http://localhost:3000/response/add-new-sharedLink`,
+        sharedLinkData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching form details:", error);
+      throw error;
+    }
+  };
+
+  // TODO: Get all the information of the shared Link
+  const getSharedLinkUserDetailsFun = async () => {
+    const sharedLink = window.location.href;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/response/get-shared-link-details/`,
+        {
+          params: { sharedLink },
+        }
+      );
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error("Error fetching form details:", error);
+      throw error;
+    }
+  };
+
+  const addUserInputsToSharedLinkFun = async ({
+    sharedLink,
+    randomId,
+    formInput,
+  }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/response/add-new-user-form-details",
+        {
+          sharedLink: sharedLink,
+          randomId: randomId,
+          formInput: formInput,
+        }
+      );
+
+      console.log("Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding user form details:", error);
+      throw error;
+    }
+  };
+
+  // TODO:Add a new user to the sharedLink
+  const addNewUserToLinkDeatilsFun = async (sharedLinkData) => {
+    console.log(sharedLinkData);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/response/add-new-user-to-shared-link/`,
+        sharedLinkData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching form details:", error);
       throw error;
     }
   };
@@ -217,6 +319,11 @@ function useApiFun() {
     getFormWithFolderIdFun,
     createFormFun,
     updateFormByIdFun,
+    getFormDetailsById,
+    addLinkDeatilsFun,
+    getSharedLinkUserDetailsFun,
+    addUserInputsToSharedLinkFun,
+    addNewUserToLinkDeatilsFun,
   };
 }
 

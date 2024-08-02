@@ -21,6 +21,7 @@ import WorkspaceTool from "./pages/WorkspaceTool";
 import NavWorkSpaceTool from "./components/Workspace/NavWorkSpaceTool";
 import Theme from "./pages/Theme";
 import Analytics from "./pages/Analytics";
+import SharedFormPage from "./pages/SharedFormPage";
 
 // *Create a client
 const queryClient = new QueryClient();
@@ -29,13 +30,11 @@ function App() {
   // Upon Logout we have to remove "token", "userName" from local stroage
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector((state) => state.auth);
-
   useEffect(() => {
     if (!isAuthenticated) {
       dispatch(logout());
     }
   }, [isAuthenticated]);
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -44,6 +43,7 @@ function App() {
             <Route index path="/" element={<HomePage />}></Route>
             <Route path="/signup" element={<SignupPage />}></Route>
             <Route path="/signin" element={<SignInPage />}></Route>
+            <Route path="/share/:sharedLink" element={<SharedFormPage />} />
             <Route
               path="/dashboard/:userID/*"
               element={<ProtectedRoute element={DashboardLayout} />}

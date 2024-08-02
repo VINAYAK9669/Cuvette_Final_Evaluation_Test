@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-//* Schema for form details
+// Schema for form details
 const formDetailsSchema = new Schema({
   name: {
     type: String,
@@ -18,43 +18,58 @@ const formDetailsSchema = new Schema({
   },
 });
 
-//* Schema for user responses
+// Schema for user responses
 const userResponseSchema = new Schema({
-  name: {
+  RandomId: {
     type: String,
     required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
   },
   formDetails: [formDetailsSchema],
 });
 
-//* Schema for user actions
-const sharedLinkDetails = new Schema({
-  userId: {
-    type: String,
+// Schema for shared link details
+const sharedLinkDetailsSchema = new Schema({
+  sharedLink: {
+    type: Schema.Types.Mixed,
+    required: true,
+    unique: true,
+  },
+  totalInputs: {
+    type: Number,
     required: true,
   },
-
-  LinkDetails: [
+  formFillerData: [userResponseSchema],
+  formDetails: [
     {
-      sharedLink: {
+      inputType: {
         type: String,
         required: true,
-        unique: true,
       },
-      totalInputs: {
-        type: Number,
+      type: {
+        type: String,
         required: true,
       },
-      formFillerData: [userResponseSchema],
+      name: {
+        type: String,
+        required: true,
+      },
+      showValue: {
+        type: String,
+        default: "",
+      },
     },
   ],
 });
 
-const UserAction = mongoose.model("UserAction", sharedLinkDetails);
+// Schema for user actions
+const userActionSchema = new Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
+  LinkDetails: [sharedLinkDetailsSchema],
+});
+
+const UserAction = mongoose.model("UserAction", userActionSchema);
 
 module.exports = UserAction;
