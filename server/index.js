@@ -13,7 +13,7 @@ const userReponse = require("./routes/userResponse");
 
 // TODO: 2] Create a instance of express and declare port
 const app = express();
-const PORT = 3000;
+const PORT = 10000;
 
 // Enable CORS
 app.use(cors());
