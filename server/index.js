@@ -42,11 +42,7 @@ mongoose
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-app.use("/", (req, res) => {
-  res.json({
-    message: "Working Fine",
-  });
-});
+
 // TODO: 6] Use the defined routes
 app.use("/user", userRoute);
 app.use("/api", folderRoutes);
