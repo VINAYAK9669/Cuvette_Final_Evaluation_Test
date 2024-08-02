@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const FolderController = require("../controllers/FolderController");
-const verifyToken = require("../middlewares/verifyToken");
+const FolderController = require("../controllers/FolderController.js");
+const verifyToken = require("../middlewares/verifyToken.js");
 
 //* Route to create a new folder
 router.post("/folders", verifyToken, FolderController.createFolder);
