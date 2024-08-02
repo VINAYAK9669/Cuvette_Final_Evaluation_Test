@@ -68,7 +68,7 @@ function useAuthentication() {
   // * Handle signIn once we get response from server
   const handleLoginLogic = async (data) => {
     const { response } = data;
-
+    console.log(response);
     if (response.status === 200) {
       try {
         // 1] store the token to the localStorage

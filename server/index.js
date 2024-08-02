@@ -42,7 +42,7 @@ mongoose
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-app.use("/", (req, res) => {
+app.use("/health", (req, res) => {
   res.json({
     message: "Working Fine",
   });
