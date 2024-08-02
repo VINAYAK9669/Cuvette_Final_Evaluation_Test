@@ -6,6 +6,7 @@ import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
 import useAuthentication from "../configuration/useAuthentication";
 import styles from "./Analystics.module.css"; // Import the CSS module for styling
 
+const BASE_URL = String(import.meta.env.VITE_API_BASE_URL);
 function Analytics() {
   const { getFormDetails } = useAuthentication();
   const [sharedLinkDetails, setSharedLinkDetails] = useState(null);
@@ -14,7 +15,7 @@ function Analytics() {
   const fetchSharedLinkDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/response/get-shared-link-details/`,
+        `${BASE_URL}response/get-shared-link-details/`,
         {
           params: { sharedLink },
         }

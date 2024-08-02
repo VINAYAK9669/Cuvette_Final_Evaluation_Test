@@ -100,7 +100,7 @@ function SettingPage() {
             />
           </div>
         </div>
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting} className={styles.button}>
           Update
         </button>
       </form>

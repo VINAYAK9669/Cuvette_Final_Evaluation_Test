@@ -31,7 +31,7 @@ function WorkspaceTool() {
   useEffect(() => {
     if (getFormDetails.data) {
       setMainItems(getFormDetails.data?.data?.formDetails);
-      setFormName(getFormDetails.data?.data.formName);
+      setFormName(getFormDetails.data?.data?.formName);
     }
   }, [getFormDetails.data]);
 
@@ -67,7 +67,7 @@ function WorkspaceTool() {
         inputType: "Input",
         type,
         name: `${type.charAt(0).toUpperCase() + type.slice(1)} Input ${count}`,
-        showValue: "", 
+        showValue: "",
       },
     ]);
   };
@@ -75,7 +75,7 @@ function WorkspaceTool() {
   const handleFileChange = (index) => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = "image/*,video/*"; 
+    input.accept = "image/*,video/*";
     input.onchange = (event) => {
       const file = event.target.files[0];
       if (file) {
@@ -85,16 +85,14 @@ function WorkspaceTool() {
           const base64String = reader.result;
           setMainItems((prev) =>
             prev.map((mItem, mIndex) =>
-              mIndex === index
-                ? { ...mItem, showValue: base64String } 
-                : mItem
+              mIndex === index ? { ...mItem, showValue: base64String } : mItem
             )
           );
-          setValue(`bubbles[${index}].value`, base64String); 
+          setValue(`bubbles[${index}].value`, base64String);
         };
       }
     };
-    input.click(); 
+    input.click();
   };
 
   const handleDelete = (index) => {
@@ -105,22 +103,22 @@ function WorkspaceTool() {
     const newErrors = {};
     mainItems.forEach((item, index) => {
       if (item.inputType === "Bubble" && item.showValue === "") {
-        newErrors[index] = "This field is required"; 
+        newErrors[index] = "This field is required";
       }
     });
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors); 
-      return; 
+      setErrors(newErrors);
+      return;
     } else {
-      setErrors({}); 
+      setErrors({});
     }
 
     const formDetails = mainItems.map((item) => ({
       inputType: item.inputType,
       type: item.type,
       name: item.name,
-      showValue: item.showValue || "", 
+      showValue: item.showValue || "",
     }));
     updateForm.mutate({ formName, formDetails });
   };

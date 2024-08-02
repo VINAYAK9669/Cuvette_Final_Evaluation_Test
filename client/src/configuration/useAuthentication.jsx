@@ -323,12 +323,7 @@ function useAuthentication() {
       queryClient.invalidateQueries("forms");
     },
     onError: (error) => {
-      console.log(error.response.status);
-      if (error.response.status === 400) {
-        toast.error("Email is already registered");
-      } else {
-        toast.error("something went wrong");
-      }
+      toast.error("something went wrong");
 
       throw error("Failed to create form");
     },

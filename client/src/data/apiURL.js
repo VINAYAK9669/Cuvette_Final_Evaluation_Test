@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:3000/";
+const BASE_URL = String(import.meta.env.VITE_API_BASE_URL);
 
 // TODO:URL's Related to User Authentication and Registration
 const registerUserURL = `${BASE_URL}user/register`;
@@ -14,12 +14,11 @@ const deleteFolderByIdURL = `${BASE_URL}api/folders`;
 const createSubFoldersURL = `${BASE_URL}folders/subfolder`;
 
 // *Get the form without folderId
-const getFormWithoutFolderIdURL =
-  "http://localhost:3000/formapi/form/withoutfolderId";
+const getFormWithoutFolderIdURL = `${BASE_URL}formapi/form/withoutfolderId`;
 // *Delete the form by its Id
-const deleteFormByIdURL = "http://localhost:3000/formapi/form/delete";
+const deleteFormByIdURL = `${BASE_URL}formapi/form/delete`;
 // *Get the forms by userId, also can fetch the with folders
-const getFormsByUserIdURL = "http://localhost:3000/formapi/folder/forms";
+const getFormsByUserIdURL = `${BASE_URL}formapi/folder/forms`;
 
 export {
   registerUserURL,

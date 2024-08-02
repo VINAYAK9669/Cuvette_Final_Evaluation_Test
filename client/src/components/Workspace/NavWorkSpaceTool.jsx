@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { closeIcon } from "../../data/fileImports";
 import styles from "./NavWorkSpaceTool.module.css";
 import { v4 as uuidv4 } from "uuid";
@@ -10,6 +10,7 @@ function NavWorkSpaceTool({ onSave, setFormName, formName, handleSetTheme }) {
   const { userID, folderId, formId } = useParams();
   const { updateForm, getFormDetails, addDetailsToNewLink } =
     useAuthentication();
+  const navigate = useNavigate();
   function hadndleSave() {
     // Check if the URL contains 'flow'
     if (location.pathname.includes("flow")) {
@@ -97,7 +98,7 @@ function NavWorkSpaceTool({ onSave, setFormName, formName, handleSetTheme }) {
         <button className={styles.saveButton} onClick={hadndleSave}>
           Save
         </button>
-        <img src={closeIcon} />
+        <img src={closeIcon} onClick={() => navigate(`/dashboard/${userID}`)} />
       </div>
     </div>
   );

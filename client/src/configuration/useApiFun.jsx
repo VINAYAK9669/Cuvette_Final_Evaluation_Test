@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
+const BASE_URL = String(import.meta.env.VITE_API_BASE_URL);
 import axios from "axios";
-
-// import { loginUser, registerUser } from "../data/useApiUrl";
 import { jwtDecode } from "jwt-decode";
 import {
   registerUserURL,
@@ -11,6 +10,8 @@ import {
   getFolderbyIdURL,
   deleteFolderByIdURL,
   deleteFormByIdURL,
+  getFormWithoutFolderIdURL,
+  getFormsByUserIdURL,
 } from "../data/apiURL";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -29,6 +30,7 @@ function useApiFun() {
       return error;
     }
   };
+
   // TODO: ========= User LOGIN Function
   const loginUser = async (userData) => {
     try {
@@ -38,6 +40,7 @@ function useApiFun() {
       return error;
     }
   };
+
   // TODO: ========= Create a Folder api function
   // *Create a folder with or without name
   const createFolderFun = async (userData) => {
@@ -53,8 +56,6 @@ function useApiFun() {
       return { error: error.response ? error.response.data : error.message };
     }
   };
-
-  // *Create a subfolders [Will build this later]
 
   // TODO: GET all the folders created by user
   const getFoldersbyUserIdFun = async (userId) => {
@@ -108,7 +109,6 @@ function useApiFun() {
   };
 
   //TODO: Delete form by Id
-
   const deleteFromByIdFun = async (formId) => {
     try {
       const token = localStorage.getItem("token");
@@ -129,9 +129,7 @@ function useApiFun() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3000/formapi/folder/forms/${userId}/${
-          folderId ? folderId : ""
-        }`,
+        `${getFormsByUserIdURL}/${userId}/${folderId ? folderId : ""}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -166,12 +164,12 @@ function useApiFun() {
     }
   };
 
-  // TODO: Create a form with or without forlderId
+  // TODO: Create a form with or without folderId
   const createFormFun = async (formData) => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3000/formapi/createform",
+        `${BASE_URL}formapi/createform`,
         formData,
         {
           headers: {
@@ -191,7 +189,7 @@ function useApiFun() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3000/formapi/form/update/${formId}`,
+        `${BASE_URL}formapi/form/update/${formId}`,
         updatedData,
         {
           headers: {
@@ -211,14 +209,11 @@ function useApiFun() {
   const getFormDetailsById = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `http://localhost:3000/formapi/form/${formId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.get(`${BASE_URL}formapi/form/${formId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response;
     } catch (error) {
       console.error("Error fetching form details:", error);
@@ -231,7 +226,7 @@ function useApiFun() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        `http://localhost:3000/response/add-new-sharedLink`,
+        `${BASE_URL}response/add-new-sharedLink`,
         sharedLinkData,
         {
           headers: {
@@ -252,7 +247,7 @@ function useApiFun() {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/response/get-shared-link-details/`,
+        `${BASE_URL}response/get-shared-link-details/`,
         {
           params: { sharedLink },
         }
@@ -271,7 +266,7 @@ function useApiFun() {
   }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/response/add-new-user-form-details",
+        `${BASE_URL}response/add-new-user-form-details`,
         {
           sharedLink: sharedLink,
           randomId: randomId,
@@ -290,7 +285,7 @@ function useApiFun() {
   const addNewUserToLinkDeatilsFun = async (sharedLinkData) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/response/add-new-user-to-shared-link/`,
+        `${BASE_URL}response/add-new-user-to-shared-link/`,
         sharedLinkData,
         {
           headers: {
@@ -311,7 +306,7 @@ function useApiFun() {
       console.log(theme);
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3000/formapi/${formId}/theme`,
+        `${BASE_URL}formapi/${formId}/theme`,
         theme,
         {
           headers: {
@@ -339,7 +334,7 @@ function useApiFun() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3000/user/update/${userId}`,
+        `${BASE_URL}user/update/${userId}`,
         { oldPassword, newPassword, name, email },
         {
           headers: {
@@ -354,6 +349,7 @@ function useApiFun() {
       throw error;
     }
   };
+
   return {
     addNewUser,
     loginUser,
