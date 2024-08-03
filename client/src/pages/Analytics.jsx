@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import NavWorkSpaceTool from "../components/Workspace/NavWorkSpaceTool";
 import useAuthentication from "../configuration/useAuthentication";
-import styles from "./Analystics.module.css"; // Import the CSS module for styling
+import styles from "./Analystics.module.css";
 
-const BASE_URL = String(import.meta.env.VITE_API_BASE_URL);
+const BASE_URL = "https://cuvette-final-evaluation-test.onrender.com/";
 function Analytics() {
   const { getFormDetails } = useAuthentication();
   const [sharedLinkDetails, setSharedLinkDetails] = useState(null);

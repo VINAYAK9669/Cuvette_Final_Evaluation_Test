@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import usericon from "/assets/settings/icon.svg";
 import styles from "./SettingPage.module.css";
-import useAuthentication from "../configuration/useAuthentication"; // Adjust the path as needed
+import useAuthentication from "../configuration/useAuthentication";
 import toast from "react-hot-toast";
 
 function SettingPage() {
-  const { updateUserDetails } = useAuthentication(); // Assuming you have a hook to handle user updates
+  const { updateUserDetails } = useAuthentication();
   const {
     register,
     handleSubmit,

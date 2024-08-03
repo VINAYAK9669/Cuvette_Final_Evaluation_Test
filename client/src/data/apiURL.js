@@ -1,4 +1,4 @@
-const BASE_URL = String(import.meta.env.VITE_API_BASE_URL);
+const BASE_URL = "https://cuvette-final-evaluation-test.onrender.com/";
 
 // TODO:URL's Related to User Authentication and Registration
 const registerUserURL = `${BASE_URL}user/register`;
