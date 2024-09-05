@@ -14,12 +14,11 @@ function NavWorkSpaceTool({ onSave, setFormName, formName, handleSetTheme }) {
   function hadndleSave() {
     // Check if the URL contains 'flow'
     if (location.pathname.includes("flow")) {
-      onSave(); // Call onSave if 'flow' is present in the URL
+      onSave();
     }
 
-    // Check if the URL contains 'theme'
     if (location.pathname.includes("theme")) {
-      handleSetTheme(); // Call handleSetTheme if 'theme' is present in the URL
+      handleSetTheme();
     }
   }
   function handleSharedLink() {
@@ -44,7 +43,7 @@ function NavWorkSpaceTool({ onSave, setFormName, formName, handleSetTheme }) {
     }
   }
   const handleBlur = (event) => {
-    setFormName(event.target.value); // Set the form name to the value of the input
+    setFormName(event.target.value);
   };
 
   return (

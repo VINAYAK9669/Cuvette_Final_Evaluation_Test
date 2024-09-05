@@ -44,11 +44,13 @@ function App() {
 
     checkAuthentication();
   }, [dispatch]);
+
   useEffect(() => {
     if (!isAuthenticated) {
       dispatch(logout());
     }
   }, [isAuthenticated]);
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
@@ -58,6 +60,7 @@ function App() {
             <Route path="/signup" element={<SignupPage />}></Route>
             <Route path="/signin" element={<SignInPage />}></Route>
             <Route path="/share/:sharedLink" element={<SharedFormPage />} />
+            {/* PROTECTED ROUTES */}
             <Route
               path="/dashboard/:userID/*"
               element={<ProtectedRoute element={DashboardLayout} />}

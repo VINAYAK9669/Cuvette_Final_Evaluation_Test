@@ -310,6 +310,7 @@ function useAuthentication() {
       throw error("Failed to create form");
     },
   });
+  // TODO: Update user credentials or personal datas
   const updateUserDetails = useMutation({
     mutationKey: ["newUserDetails"],
     mutationFn: updateUserDeatilsFun,

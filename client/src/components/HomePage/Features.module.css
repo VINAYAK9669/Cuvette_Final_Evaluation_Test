@@ -65,7 +65,6 @@
   font-size: var(--font-size-md);
   line-height: var(--line-height-xl);
   color: rgba(113, 128, 150, 1);
-  margin-top: -3rem;
 }
 .gallery {
   width: 1137px;
